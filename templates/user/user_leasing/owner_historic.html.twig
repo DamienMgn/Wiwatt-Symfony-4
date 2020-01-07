@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes locations{% endblock %}
+
+{% block body %}
+<div class="container px-0">
+
+    <div class="row">
+        <div class="col text-center">
+            <a class="nav-link font-weight-bold position-relative" href="{{ path('owner_historic') }}"><img src="{{ asset('pictures/bolt.png') }}" height="20" alt="circle" class="bolt">En tant que proprietaire</a>
+        </div>
+        <div class="col text-center">
+           <a class="nav-link text-secondary" href="{{ path('user_rental') }}">En tant que locataire</a>     
+        </div>
+    </div>
+       
+ 
+
+<div class="table-responsive">    
+    <table class="table border container mt-5 text-center">
+        <thead>
+          <tr>
+            <th scope="col" ></th>
+            <th scope="col" class="align-middle">Actualisée le</th>
+            <th scope="col" class="align-middle">Locataire</th>
+            <th scope="col" class="align-middle">Véhicule</th>
+            <th scope="col" class="align-middle">Statut</th>
+            <th scope="col" class="align-middle">Dates location</th>
+            <th scope="col" class="align-middle">Prix total</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            {% for ask in bookings %}
+                <tr {% if ask.status == 2 %}
+                class="bg-validate"
+                {% elseif ask.status == 1%}
+                class="bg-send"
+                {% elseif ask.status == 3 or ask.status == 4%}
+                class="bg-denied"
+                {% elseif ask.status == 5 %}
+                class="bg-finish"
+                
+                {% endif %}
+                >
+                <th scope="row"></th>
+                <td class="align-middle">
+                    <p>{{ ask.updatedAt |localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM à kk:mm')  }}</p>
+                </td>
+                <td class="align-middle">
+                    <a href="{{ path('one_user_information', {'user' : ask.renter.id }) }}">
+                        <img src="{{ asset(ask.renter.avatar) }}" alt="avatar" height="40" class="card-avatar">
+                        <p class="text-small"> {{ ask.renter.firstname }} {{ ask.renter.lastname }}</p>
+                    </a>
+                </td>
+                <td class="align-middle">
+                {% for picture in ask.vehicle.pictures %}
+                    <img class="vehicle_picture" src="{{ asset('pictures/' ~ picture.image) }}">
+                {% endfor %}
+                </td>
+                <td class="align-middle">
+                    {% if ask.status == 1 %}
+                    <p>Demande reçue</p>
+                    <div class="d-flex justify-content-around align-items-center">
+                        <form action="{{ path('user_accept_booking') }}" method="POST">
+                            <input type="hidden" name="token" value="{{ csrf_token('accept') }}"/>
+                            <input type="hidden" name="bookingId" value="{{ ask.id }}"/>
+                            <input type="hidden" name="datesId" value="{{ ask.dateRenter | join('-') }}"/>
+                            <button class="btn btn-sm btn-outline-success my-2" type="submit">Accepter</button>
+                        </form>
+                        <form action="{{ path('user_refuse_booking') }}" method="POST">
+                            <input type="hidden" name="token" value="{{ csrf_token('deny') }}"/>
+                            <input type="hidden" name="bookingId" value="{{ ask.id }}"/>
+    
+                            <button class="btn btn-sm btn-outline-danger my-2" type="submit">Refuser</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if ask.status == 2 %}
+                    <p>Demande acceptée</p>
+                    <div class="d-flex justify-content-around">
+                            <button class="btn btn-sm btn-success my-2 text-small" type="button" data-toggle="popover-phone" title="télephone" data-content="{{ ask.renter.phoneNumber }}"><i class="fa fa-phone" aria-hidden="true"></i></button>
+                            <button class="btn btn-sm btn-success my-2 text-small" type="button" data-toggle="popover-email" title="mail" data-content="{{ ask.renter.email }}"><i class="fa fa-envelope-o" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="d-flex justify-content-around align-items-center">
+                        <form action="{{ path('vehicle_reception') }}" method="POST">
+                            <input type="hidden" name="token" value="{{ csrf_token('reception') }}"/>
+                            <input type="hidden" name="bookingId" value="{{ ask.id }}"/>
+                            <button class="btn btn-sm btn-success my-2" type="submit">J'ai récuperé mon véhicule</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if ask.status == 4 %}
+                    <p>Demande annulée</p>
+                    {% endif %}
+                    {% if ask.status == 3 %}
+                    <p>Demande refusée</p>
+                    {% endif %}
+                    {% if ask.status == 5 %}
+                    <p>Location terminée</p>
+                        {% if ask.commentOwner is null %}
+                    <a class="link-blue" href="{{path('add_review', {'booking' : ask.id})}}"><u>Ajouter un avis</u></a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td class="align-middle">
+                {% for date in ask.date %}
+                    <p>{{ date |localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }}</p>
+                {% endfor %}
+                </td>
+                <td class="align-middle">
+                    <p>{{ ask.vehicle.dayCost * ask.dateRenter | length }}€</p>
+                </td>
+            
+            </tr>         
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+        {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(bookings) }}
+    </div>
+</div>
+</div>
+
+
+
+      {{ include('partials/footer.html.twig') }}
+
+{% endblock %}

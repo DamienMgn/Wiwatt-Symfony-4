@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultats{% endblock %}
+
+{% block body %}
+<div id="leasing-index" class="container-fluid d-flex justify-content-between px-1 mt-3">
+    <section class="locations-container col-lg-5 overflow-auto px-3">
+
+        {# formulaire de recherche #}
+        {{ form_start(form) }}
+            <p class="font-weight-bold" id="btn-more-search"><u>Plus de critères ?</u></p>
+            <div class="row mt-3">
+                <div class="form-group col-md-4">
+                    <input type="text" name="city" id="search-city" class="form-control text-center" placeholder="Recherche par ville" autocomplete="off" required="true">
+                    <input type="hidden" name="longitude" id="home-longitude">
+                    <input type="hidden" name="latitude" id="home-latitude">
+                </div>
+                 <div class="form-group col-md-5">
+                        <input
+                        autocomplete="off"
+                        name="date" 
+                        placeholder="Dates de disponiblités" 
+                        id="availableDate" 
+                        type="text"
+                        autocomplete="off"
+                        data-language='fr'
+                        data-multiple-dates="30"
+                        data-multiple-dates-separator="-"
+                        data-position='bottom left' class="form-control text-center"/> 
+                        <input type="hidden" name="token" value="{{ csrf_token('date-form') }}"/>
+                 </div>
+
+                    <div class="form-group col-md-3 d-none d-sm-block">
+                        <button type="submit" class="btn col-md-12 btn-outline-info">Valider</button>
+                    </div>
+                
+            </div>
+                <div class="" id="more-search">
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                            {{ form_row(form.dayCost, {'attr' : { 'placeholder' :'Prix maximum' }}) }}
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.brand, {'attr' : { 'placeholder' :'Marque' }}) }}
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.model, {'attr' : { 'placeholder' :'Modèle' }}) }} 
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                            {{ form_row(form.seatNumber, {'attr' : { 'placeholder' :'Nombre de place minimum' }}) }}
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.maxSpeed , {'attr' : { 'placeholder' :'Vitesse minimum (km/h)' }}) }}
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.weight , {'attr' : { 'placeholder' :'Poids maximum (kg)' }}) }} 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                            {{ form_row(form.power, {'attr' : { 'placeholder' :'Puissance minimum (watt)' }}) }} 
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.autonomy, {'attr' : { 'placeholder' :'Autonomie minimum (km)' }}) }} 
+                            </div>
+                            <div class="col-md-4">
+                            {{ form_row(form.type, {'attr' : { 'placeholder' :'Type' }}) }}
+                            </div>
+                        </div>
+                </div>
+                <div class="form-group d-sm-none">
+                        <button type="submit" class="btn col-md-12 btn-outline-info">Valider</button>
+                </div>
+
+
+        {{ form_end(form) }}
+        <p class="font-weight-bold mt-5">Location <span class="text-color-wiwatt">100%</span> électrique avec <span class="text-color-wiwatt">WiWatt</span></p>
+        <p class="font-italic"><span class="font-weight-bold">{{ vehicles | length }}</span> résultat{% if vehicles | length  > 1 %}s{% endif %} trouvé{% if vehicles | length  > 1 %}s{% endif %} dans un rayon de 20km.</p>
+        <div class="card-container row mt-5 d-flex">
+
+                        {% for vehicle in vehicles %}
+                        <div data-longitude="{{ vehicle.longitude }}" data-latitude="{{ vehicle.latitude }}"  class="my-2 pb-3 pt-3 mx-auto carte col-lg-5 col-md-5 col-sm-5 border rounded-lg">
+                            {{ include('partials/card.html.twig') }}   
+                        </div>
+                        {% endfor %}       
+                
+            
+            
+        </div>
+    </section>
+    <section id="map-resultats" class="col d-none d-lg-block"></section>
+</div>
+
+<script src="{{ asset('js/cancel-padding.js') }}"></script>
+{% endblock %}
+
+

@@ -1,0 +1,29 @@
+{% set numberDates = 0 %}
+<h3>Bonjour {{userOwner.firstname|capitalize}}</h3>
+<p>Vous avez une nouvelle demande de réservation de la part de {{userRenter.firstname|capitalize}} {{userRenter.lastname|capitalize}}.</p>
+<div>
+    <h4>Cette demande concerne le véhicule suivant :</h4>
+    <ul>
+        <li>Type : {{vehicle.type.name}} </li>
+        <li>Véhicule : {{vehicle.brand}} {{vehicle.model}}</li>
+        <li>Date de la location : {% for date in booking.date %}{{date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }} -
+                                    {% set numberDates = numberDates + 1 %}
+                                 {% endfor %} 
+                                    {% set dayCost = vehicle.dayCost %} 
+                                    {%  set totalPriceBooking = dayCost * numberDates %}  
+        </li>
+    </ul>
+</div>
+<p>Cette location vous rapporterait : {{totalPriceBooking }} euros.</p>
+<div>
+    <h4>Voici les coordonnées de la personne qui fait cette demande :</h4>
+    <ul>
+        <li>Nom : {{userRenter.firstname|capitalize}} {{userRenter.lastname|capitalize}}</li>
+        <li>Email : {{userRenter.email}} </li>
+        <li>Téléphone : {{userRenter.phoneNumber}} </li>
+    </ul>
+</div>
+<p>Connectez-vous à votre compte pour <a href="https://wiwatt.fr/">confirmer la réservation.</a></p>
+Bonne journée de la part de l'équipe Wiwatt.
+<br>
+<a href="https://wiwatt.fr/">Wiwatt</a>

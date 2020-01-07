@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formulaire-Inscription-Wiwatt{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <h1 class="text-center h3 mt-5 mb-3">Connexion à Wiwatt</h1>
+      <small class="form-text text-muted">Pas de compte Wiwatt? <a class="text-primary" href="{{ path('subscribe') }}">Inscription</a></small>
+      <hr class="mt-1">
+      <form action="{{ path('app_login') }}" method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+          
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.firstname }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+              <label for="inputEmail" class="sr-only">Email</label>
+              <input type="email" value="" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword" class="sr-only">Mot de passe</label>
+              <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+              <small class="form-text text-muted"><a class="text-primary" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié ?</a></small>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <hr>
+              <div class="d-flex justify-content-center">
+                <button class="btn col-sm-6 btn-outline-success mr-2" type="submit">
+                    Connexion
+                </button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+{{ include('partials/footer.html.twig') }}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'bundles/FOSUserBundle/layout.html.twig' %}
+
+
+{# En cas de succes d'une opération, on arrive sur /profile , c'est à dire ici #}
+{% block fos_user_content %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container d-flex justify-content-center mt-5">
+        <div class="col-lg-5 col-md-8">
+                <a href="{{path('show_home') }}" class="col-md-12 btn btn-outline-success mt-3"> Revenir sur l'accueil</a>
+</div>
+
+{% endblock %}

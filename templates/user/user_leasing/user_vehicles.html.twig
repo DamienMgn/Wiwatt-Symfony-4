@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+
+{% block body %}
+<h1 class="mt-5 text-center h3">Mes véhicules</h1>
+<hr>
+<div class="container-fluid">
+    <div class="text-center">
+      <a href="{{ path('vehicle_leasing_form')}}" class="btn btn-outline-info my-3"> <i class="fa fa-plus-square-o" aria-hidden="true"></i> Ajoutez un véhicule</a>
+    </div>
+    <div class="row d-flex justify-content-center overflow-auto pb-3 pt-3">
+       {% for vehicle in vehicles %}
+        <div  class="my-2 pt-3 pb-3 carte col-xl-2 rounded-lg mx-3 shadow">
+            {% include 'partials/vehicle-card.html.twig'%}
+            <form action="{{ path('vehicle_delete') }}" method="post" class="row mt-3">
+                <input type="hidden" name="vehicle_id" value="{{ vehicle.id }}">
+                <input type="hidden" name="token" value="{{ csrf_token('delete-vehicle') }}"/>
+                <button class="btn mx-auto" type="submit"><i class="fa fa-trash text-danger fa-2x" aria-hidden="true"></i></button>                    
+            </form>
+        </div>
+        {% else %}
+            <p>Aucun véhicule enregistré</p>
+        {% endfor %}
+        
+            
+    </div>
+    
+      
+</div>
+   
+{{ include('partials/footer.html.twig') }}
+
+{% endblock %}
+

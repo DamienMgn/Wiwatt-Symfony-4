@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration Générale{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h4 class="ml-3 mt-5">Page Administration Générale.</h4>
+
+    <div class="admin_comment d-flex justify-content-around mt-5">
+        <a href="{{ path('all_type') }}" class="btn_admin btn btn-sm btn-outline-info">Admin Types</a>
+        <a href="{{ path('all_users') }}" class="btn_admin btn btn-sm btn-outline-info">Admin Utilisateurs</a>
+        <a href="{{ path('all_comments') }}" class="btn_admin btn btn-sm btn-outline-info">Admin Commentaires</a>
+    </div>
+</div>
+
+
+{% endblock %}

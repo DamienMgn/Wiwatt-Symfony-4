@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration Générale{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h4 class="ml-3 mt-5">Administration Commentaires.</h4>
+
+    <div class="admin_comment d-flex justify-content-around mt-5">
+        {% for user in users %}
+            {% for comment in user.comments %}
+                <div class="admin_single_comment border py-2 px-2 text-center mt-3">
+                    <p>"{{ comment }}"</p>
+                    <div class="comment_author container">
+                        <hr>
+                        <p class="text-small mt-2">Ecrit par {{ comment.author.firstname }}, le: {{ comment.createdAt|date("d/m/Y")}}</p>
+                        <p class="text-small">Concerne: {{ comment.customer.firstname }}</p>
+                        <hr>
+                    </div>
+                    <form action="{{ path('comment_delete') }}" method="post" class="d-flex justify-content-center py-2">
+                            <input type="hidden" name="comment_id" value="{{comment.id}}">
+                            <input type="hidden" name="token" value="{{ csrf_token('delete-comment') }}"/>
+                        <button type="submit" class="delete_btn btn btn-sm btn-outline-danger">X</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
+    <div class="mt-5 d-flex justify-content-center">                
+        <a href="{{ path('admin') }}" class="btn_admin btn btn-sm btn-outline-info">Retour Administration Générale</a>
+    </div>
+
+{% endblock %}

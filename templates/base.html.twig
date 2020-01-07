@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="{{ asset('pictures/favicon2.png') }}" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/leaflet.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap-4.3.1-dist/css/bootstrap.min.css') }}">    
+    <link rel="stylesheet" href="{{ asset('css/datePicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('Fork-Awesome-1.1.7/css/fork-awesome.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+    <header class="container-fluid pt-3 pb-2">
+        <div class="row d-flex justify-content-between align-items-center px-3">
+            <div class="d-none d-md-block">
+                <a href="{{ path('vehicle_leasing_form')}}" class="btn btn-sm btn-outline-info">Louer mon véhicule</a>
+            </div>
+
+            <div class="d-none d-md-block">            
+                <a  href="{{path('show_home')}} "><img src="{{ asset('pictures/wiwatt-logo1.png') }}" alt="wiwatt" height="30"></a>            
+            </div>            
+            <div class="d-block d-md-none">            
+                <a  href="{{path('show_home')}} "><img src="{{ asset('pictures/wiwatt-logo1.png') }}" alt="wiwatt" height="20"></a>            
+
+            </div>            
+            <div>
+                {% if app.user %}
+                    <div class="d-flex flex-column align-items-center">
+                   
+                    <div class="dropdown align-center header-user-menu">
+                        <span  class="dropdown-toggle" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="card-avatar" height="36" src="{{ asset(app.user.avatar) }}" alt="avatar">
+                            <span class="text-small font-weight-bold align-bottom">{{ app.user.firstname | capitalize }}</span>
+                        </span>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
+                            
+                            <a class="dropdown-item text-small" href="{{ path('user_information') }}">Mon compte</a>
+                            <a class="dropdown-item text-small" href="{{ path('owner_historic') }}">Gérer mes locations</a>
+                            <a class="dropdown-item text-small" href="{{ path('user_vehicles') }}">Mes véhicules</a>
+                            <a class="dropdown-item text-small" href="{{ path('user_post') }}">Mes annonces</a>
+                            <a class="dropdown-item text-danger text-small" href="{{ path('app_logout') }}">Déconnexion</a>
+                        </div>
+                    </div>
+                    
+                </div>
+               
+                {% else %}
+                    <div>
+                        <a id="inscription" href="{{ path('subscribe') }}" class="btn btn-sm btn-outline-info">Inscription</a>
+                        <a id="connexion" href="{{ path('app_login') }}" class=" btn btn-sm btn-outline-info">Connexion</a>
+                   </div>
+                {% endif %}
+            </div> 
+        </div>
+        
+    </header>
+   
+    <div class="container">
+        {% for type , messages in app.flashes %}
+        <div class="alert alert-{{type}}" >
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}        
+        </div>
+        {% endfor %}
+    </div>
+
+ 
+
+
+
+{% block body %}{% endblock %}
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="{{ asset('bootstrap-4.3.1-dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/leaflet.js') }}"></script>
+<script src="{{ asset('js/datePicker.js') }}"></script>
+<script src="{{ asset('js/datepicker.fr.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/modal-validation.js') }}"></script>
+{% block javascript %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,35 @@
+    <div class="image-container">
+        {% if vehicle.pictures | length == 0  %}
+        <img src="{{ asset('pictures/no-image.png') }}" alt="no image" class="image-locations rounded">
+
+        {% else %}
+        {% for picture in vehicle.pictures %}
+        {% if loop.first %}
+        <img src="{{ asset('pictures/' ~ picture.image ) }}" alt="vehicule image"  class="image-locations rounded"> 
+        {% endif %}
+                                        
+        {% endfor %}
+        {% endif %}
+      <span class="price">{{ vehicle.dayCost }}€</span>
+      <span class="city">{{ vehicle.city }} {{ vehicle.zipcode }}</span>
+    </div>
+    
+    <div>
+        <p class="font-weight-bold h5 text-center mt-2">{{ vehicle.type.name | capitalize }}</p>
+        <div class="d-flex justify-content-around mt-3">
+            <div>
+                <i class="fa fa-bolt text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.power }}W</span>
+            </div>
+            <div>
+                <i class="fa fa-battery-half text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.autonomy }} km</span>
+            </div>
+            <div>
+                <i class="fa fa-tachometer text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.maxSpeed }} km/h</span>
+            </div>
+            <div>
+                <i class="fa fa-users text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.seatNumber }}</span>
+            </div>                
+            
+        </div>
+       
+    </div>

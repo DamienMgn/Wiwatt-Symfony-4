@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} vos informations personnelles {% endblock %}
+
+{% block body %}
+
+  {{ form_start(registerForm) }}
+  
+      <div class="container-fluid d-flex justify-content-around mt-5 row mx-auto">
+
+            <div class="col-xl-4 col-md-6 col-sm-10 mb-5">
+                  <div class="d-flex flex-column align-items-center">
+                        <div class="d-flex justify-content-center align-items-center position-relative">
+                        
+                        
+                              <div class="avatar mt-2">
+                                    <img class="avatar_picture_page_my-information" src="{{ asset('/' ~ user.avatar) }}">
+                                    
+                                    
+                              </div>
+                              <div id="avatar-click" class="align-self-end">                 
+                                    <i class="fa fa-camera fa-2x" aria-hidden="true"></i>                                                                                        
+                              </div>
+                              {{ form_row(registerForm.avatar, {'attr' : { 'placeholder' :'Nom' } }) }}               
+                        </div>
+
+                        <div class="col-md-10 mt-3">
+                              <div class="mt-2">
+                                    {{ form_label(registerForm.lastname, 'Nom' )}}
+                                    {{ form_row(registerForm.lastname, {'attr' : { 'placeholder' :'Nom' } }) }} 
+                        
+                                    {{ form_label(registerForm.firstname, 'Prénom' )}}
+                                    {{ form_row(registerForm.firstname, {'attr' : { 'placeholder' :'Prénom' }}) }} 
+                        
+                                    {{ form_label(registerForm.email, 'Email' )}}
+                                    {{ form_row(registerForm.email, {'attr' : { 'placeholder' :'Email' }}) }}
+                                    
+                                    {{ form_label(registerForm.phoneNumber, 'Numéro de téléphone' )}}
+                                    {{ form_row(registerForm.phoneNumber, {'attr' : { 'placeholder' :'Numéro de téléphone' }})  }}
+                                    
+                              
+                              
+                                    <button class="btn btn-outline-info col mt-3" type="submit">Mettre à jour</button>
+                              </div>                            
+                        </div>
+                        
+                        {{ form_end(registerForm) }}
+                  </div> 
+                  <div class="mt-5 row d-flex justify-content-center">                
+                        <div class="d-flex flex-column justify-content-center">
+                              <a href="{{ asset('/profile/change-password') }}" class="btn btn-outline-danger">Modifier mon mot de passe</a>
+
+                        
+                              <form action="{{ path('unsubscribe_ask') }}" method="post" >
+                                          <input type="hidden" name="user_id" value="{{ app.user }}">
+                                          <input type="hidden" name="token" value="{{ csrf_token('delete-user') }}"/>
+                                          <button type="submit" class="col btn btn-outline-danger mt-3">Se désinscrire*</button>
+                                          <small class="form-text text-danger"><i class="fa fa-exclamation-triangle text-danger ml-1" aria-hidden="true"></i> Suppression du compte.*</small>             
+                              </form>
+                              
+                        </div>                   
+                  </div>
+            </div>
+
+            
+            {% include 'partials/card-one-user.html.twig' %}
+            
+
+      </div>
+           
+{{ include('partials/footer.html.twig') }}
+{% endblock %}

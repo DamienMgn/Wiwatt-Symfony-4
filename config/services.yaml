@@ -1,0 +1,51 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    # # on rajoute les lignes ci-dessous
+    # # on commence par préciser le FQCN du service
+    # App\Service\FileUploadManager:
+    #     # puis une clé arguments
+    #     arguments:
+    #         # puis la variable et sa valeur
+    #         $targetFolderPath: 'pictures'
+
+ # On configure FileUploadManager pour que son constructeur reçoive une donnée qui serait précisée ici dans ce fichier de config
+    # $targetFolderPath est la variable où on précise le chemin du dossier cible où seront stockées les images des affiches des films
+    App\Service\FileUploadManager:
+        arguments:
+            #Il faudra modifier le .gitignore pour que le dossier ignoré corresponde au chemin précisé ici
+            $targetFolderPath: '%env(resolve:MOVIE_TARGET_FOLDER_PATH)%'
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        public: false
+        tags:
+            - { name: twig.extension }

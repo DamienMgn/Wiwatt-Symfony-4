@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block title %}WiWatt - 1er site de partage de véhicules 100% électrique{% endblock %}
+
+{% block body %}
+
+
+{% if app.user %}
+    {% include 'partials/toast.html.twig' %}  
+{% endif %}
+
+
+  
+
+{# formulaire de recherche #}
+<div class="text-center my-5">
+  <a class="btn btn-outline-info d-inline d-md-none" href="{{ path('vehicle_leasing_form') }}">Louer mon véhicule</a>
+</div>
+<section id="home-search" class="container-fluid mt-5 d-flex align-items-center justify-content-center"> 
+  <form autocomplete="off" action="{{ path('leasing_index') }}">
+    <h1 class="text-shadow text-white font-weight-bold">Louez du 100% électrique !</h2>
+    <h3 class="text-shadow text-white h6  mb-5">En ville, pour la plage, pour s 'amuser: facilitez vos déplacements !</h3>
+
+
+    <div class="d-flex justify-content-between row">
+      <div class="col-md-4 form-group">
+         <input type="text" name="city" id="search-city" class="form-control btn-lg text-center" placeholder="Saisissez une ville">         
+         <input type="hidden" name="longitude" id="home-longitude">
+         <input type="hidden" name="latitude" id="home-latitude">
+      </div>
+      <div class="col-md-5 form-group">
+        <input
+        name="date" 
+        placeholder="Dates (optionnelles)" 
+        id="availableDate-home" 
+        class="form-control btn-lg text-center"
+        type="text"
+        data-language='fr'
+        data-multiple-dates="30"
+        data-multiple-dates-separator="-"
+        data-position='bottom left'/>
+      </div> 
+      <div class="col-md-3 form-group"> 
+         <input type="hidden" name="token" value="{{ csrf_token('date-form') }}"/>
+        <button id="btn-search" type="submit" class="btn col-md-12 btn-search py-2 font-weight-bold">Rechercher</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+  
+  <h2 class="h2 font-weight-bold my-5 text-center text-green mb-3">Louez un véhicule léger 100% électrique, entre particuliers simplement & rapidement.</h2>
+
+  <div class="d-none d-sm-block">
+    <section class="row d-flex justify-content-center bg-last container-fluid">
+      {% for vehicle in lastVehicles %}
+        <div class="my-2 mx-4 pb-1 pt-3 carte col-xl-2 col-md-4 col-sm-5 border rounded-lg shadow">
+          {% include 'partials/card.html.twig' %}
+        </div>
+      {% endfor %}
+      </section>
+    <h4 class="h3 font-weight-bold mt-5 text-center text-green">Des Wiwatteurs proches de chez vous !</h4>
+  </div>
+    
+  <div class="mt-3">
+    <section id="map"></section>
+  </div>
+
+{{ include('partials/footer.html.twig') }}
+{% endblock %}
+

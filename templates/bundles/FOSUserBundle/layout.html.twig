@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+{# Flashmessages #}
+<div class="container">
+    {% for messageType, messageList in app.flashes %}
+        {% for message in messageList %}
+            <div class="alert alert-{{ messageType }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+</div>
+{# fin flash #}
+
+{# Tous nos templates qui surchargent FOSUser se trouvent dans ce block #}
+{% block fos_user_content %}{% endblock fos_user_content %}
+
+{% endblock %}

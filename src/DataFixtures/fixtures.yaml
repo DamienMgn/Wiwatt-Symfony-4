@@ -1,0 +1,67 @@
+parameters:
+    hash: '$argon2id$v=19$m=65536,t=4,p=1$kTVp08r7IMsY5RRZR1Acgw$AseKyBczXOzanCA0H18YJO4M5pm1RxmLtTfRcQMmAD0'
+
+App\Entity\User:
+    user_{1..25}:
+        username: '<email()>'
+        email: '<email()>'
+        enabled: 'true'
+        password: '<{hash}>'
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        avatar: '<imageUrl(640, 480)>'
+        phoneNumber: '<numberBetween(3, 10)>'
+
+App\Entity\Type:
+    type_{1..4}:
+        name: '<titleFemale()>'
+
+App\Entity\Vehicle:
+    vehicle_{1..50}:
+        brand: '<randomElement([BAROODER, DUALTRON, RUNWAY, STREET7])>'
+        model: '<randomElement([BAROODER, DUALTRON, RUNWAY, STREET7])>'
+        seatNumber: '<numberBetween(1, 2)>'
+        maxSpeed: '<numberBetween(10, 85)>'
+        weight: '<numberBetween(5, 25)>'
+        power: '<numberBetween(200, 1000)>'
+        autonomy: '<numberBetween(3, 10)>'
+        dayCost: '<numberBetween(10, 50)>'
+        status: 'true'
+        description: '<text(200)>'
+        longitude: '<longitude(-0.4100, -0.3100)>'
+        latitude: '<latitude(49.1400, 49.1900)>'
+        zipCode: '<randomElement([14000, 25200, 44000, 65000])>'
+        city: '<randomElement([Caen, Nantes, Montbéliard, Tarbes])>'
+        adress: '<address()>'
+        type: '@type_*'
+        user: '@user_*'
+    
+App\Entity\Comment:
+    comment_{1..150}:
+        score: '<numberBetween(0, 5)>'
+        content: '<text(200)>'
+        owner: '@user_*'
+        renter: '@user_*'
+    
+App\Entity\BookingStatus:
+    bookingStatus_{1..5}:
+        name: '<word()>'
+
+App\Entity\Booking:
+    booking_{1..15}:
+        dayNumber: '<numberBetween(1, 5)>'
+        totalPrice: '<numberBetween(10, 150)>'
+        status: '@bookingStatus_*'
+        vehicle: '@vehicle_*'
+        renter: '@user_*'
+
+App\Entity\Date:
+    date_{1..30}:
+        availableDate: '<dateTime()>'
+        booking: '@booking_*'
+        vehicle: '@vehicle_*'
+
+App\Entity\Picture:
+    picture_{1..50}:
+        image: '<imageUrl(640, 480)>'
+        vehicle: '@vehicle_*'

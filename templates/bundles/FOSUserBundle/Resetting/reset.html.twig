@@ -1,0 +1,22 @@
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% extends 'bundles/FOSUserBundle/layout.html.twig' %}
+
+{% block fos_user_content %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-lg-5 col-md-8">
+        {{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+            {{ form_widget(form) }}
+            <div>
+                <input type="submit" class="col-md-12 btn btn-outline-success mt-3" value="{{ 'resetting.reset.submit'|trans }}" />
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+
+{% endblock %}

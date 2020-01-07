@@ -1,0 +1,51 @@
+    <div class="image-container">
+        {% if vehicle.pictures | length == 0  %}
+        <img src="{{ asset('pictures/no-image.png') }}" alt="no image" class="image-locations rounded">
+
+        {% else %}
+        {% for picture in vehicle.pictures %}
+        {% if loop.first %}
+        <img src="{{ asset('pictures/' ~ picture.image ) }}" alt="vehicule image"  class="image-locations rounded"> 
+        {% endif %}
+                                        
+        {% endfor %}
+        {% endif %}
+      <span class="price">{{ vehicle.dayCost }}€</span>
+     
+    </div>
+    <p class="text-center">
+        <span class="city">{{ vehicle.city }} {{ vehicle.zipcode }}</span>
+    </p>
+    <div id="card-infos-content">
+        
+        <p class="font-weight-bold h5 text-center mt-2">{{ vehicle.type.name | capitalize }}</p>
+        <div class="d-flex justify-content-around mt-3">
+            <div>
+                <i class="fa fa-bolt text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.power }}W</span>
+            </div>
+            <div>
+                <i class="fa fa-battery-half text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.autonomy }} km</span>
+            </div>
+            <div>
+                <i class="fa fa-tachometer text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.maxSpeed }} km/h</span>
+            </div>
+            <div>
+                <i class="fa fa-users text-info" aria-hidden="true"></i><span class="text-small"> {{ vehicle.seatNumber }}</span>
+            </div>                
+            
+        </div>
+        <div class="d-flex justify-content-around align-items-center mt-3">
+            
+            <div class="show-annonce d-flex justify-content-center mt-3">
+                <a href="{{ path('show_leasing' , { 'id' : vehicle.id  }) }}" class="btn btn-outline-info">Voir l'annonce</a>
+            </div>
+            
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <a class="text-center" href="{{ path('one_user_information' ,{ 'user' : vehicle.user.id}) }}">
+                    <img src="{{ asset(vehicle.user.avatar) }}" class="card-avatar" alt="avatar" width="50">
+                    <p class="text-small font-weight-bold">{{ vehicle.user.firstname | capitalize }}</p>
+                </a>
+            </div>
+
+        </div>
+    </div>

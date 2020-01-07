@@ -1,0 +1,22 @@
+<h3>Bonjour {{booking.renter.firstname|capitalize}}</h3>
+<div>
+    <h4>{{booking.owner.firstname|capitalize}} {{booking.owner.lastname|capitalize}} a accepté votre demande de location pour :</h4>
+    <ul>
+        <li>Type : {{booking.vehicle.type.name}} </li>
+        <li>Vehicule : {{booking.vehicle.brand}} {{booking.vehicle.model}}</li>
+        <li>{% set numberDates = 0 %}
+                Date de la location : {% for date in booking.date %} {{ date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }} -
+                                            {% set numberDates = numberDates + 1 %} 
+                                        {% endfor %}  
+                
+                                        {% set dayCost = booking.vehicle.dayCost %} 
+                                        {%  set totalPriceBooking = dayCost * numberDates %}</li>
+        <li>Lieu de la location : {{booking.vehicle.city}} ( {{booking.vehicle.zipCode}} )</li>
+    </ul>
+</div>
+<p>Vous devrez régler à {{booking.owner.firstname|capitalize}} la somme de  :  {{totalPriceBooking }} euros.</p>
+<p>Pour valider la remise en main propre, contactez le propriétaire au {{booking.owner.phoneNumber}} ou par email : {{booking.owner.email}}.
+</p>
+Bonne journée de la part de l'équipe Wiwatt.
+<br>
+<a href="https://wiwatt.fr/">Wiwatt</a>

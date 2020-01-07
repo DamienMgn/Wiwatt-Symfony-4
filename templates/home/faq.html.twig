@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQ{% endblock %}
+
+{% block body %}
+
+
+<div class="container-fluid d-flex justify-content-center mt-5">
+    <div class="faq_anwser mt-3 col-md-4">
+            <h3 class="mb-3">FAQ</h3>
+        <h4>Le site est-il disponible partout, ou seulement en France ? </h4>
+        <p>>> Le site est pour l'heure disponible en France, il est possible qu'une version future intègre les pays voisins.</p>
+        <h4>Locataire, ai-je autre chose à payer ? Un abonnement?</h4>
+        <p>>> Non, le tarif indiqué sur les annonces est le tarif TTC. Vous n'avez rien à payer en supplément.</p>
+        <h4>Et les voitures électriques ? Vous y avez pensé?</h4>
+        <p>>> L'intégration de la location autobomile est le sujet d'une version ultérieure.</p>
+        <h4>Question</h4>
+        <p>>> réponse...</p>
+        <p>Vous ne trouvez pas de réponse à votre réponse ? <a href="{{ path('contact') }}">Contactez-nous.</a></p>
+    </div>
+</div>
+
+    
+{{ include('partials/footer.html.twig') }}
+{% endblock %}

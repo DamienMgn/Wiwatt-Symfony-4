@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un commentaire{% endblock %}
+
+{% block body %}
+
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-lg-5 col-md-8">
+        <h3 class="h4 mb-3 text-center">Comment s'est passé la location ?</h3> 
+            
+            <div class="rating rating2"  data-toggle="popover" title="Oups" data-content="Veuillez donner une note svp."><!--
+                --><a data-rate="5" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
+                --><a data-rate="4" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
+                --><a data-rate="3" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
+                --><a data-rate="2" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
+                --><a data-rate="1" class="stars" href="#" title="Donner 5 étoiles">★</a>
+            </div>
+            {{ form_start(form) }}
+            {{ form_row(form.score, {'attr' : { 'value' : 0 }}) }} 
+            {{ form_row(form.content, {'attr' : { 'placeholder' :'Commentaire' }}) }} 
+
+            <div class="d-flex justify-content-center"> 
+                <button type="submit" id="btn-add-review" class="col-md-12 btn btn-outline-success mt-3">Envoyer!</button>
+            </div>
+            {{ form_end(form) }}  
+    </div>
+</div>
+
+    
+
+{% endblock %}

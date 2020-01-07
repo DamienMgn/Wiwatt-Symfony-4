@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container-fluid" >
+    <div class="page_error row d-flex mt-5 mb-4">     
+            <div class="col col-xs-6  ml-5">
+                <h1 class="page_error_oups">OUPS !</h1>
+                <h2 class="page_error_number_error ml-5">Erreur - {{ status_code }} </h2>
+            </div>
+            <div class="col col-xs-6 page_error_right_part d-flex flex-column justify-content-center text-center mt-4 mr-5">              
+                <h2 class="page_error_h2"> Un problème est survenue.</h2>
+                <h3 class="page_error_h3 pb-3">Nous sommes désolés.</h3>
+                <div >
+                    <a class="page_error_button btn btn-sm btn-outline-info " href="https://wiwatt.fr/">Retourner à l'acceuil </a>
+                </div>
+                 
+            </div>       
+    </div>
+</div>
+
+{% include "partials/footer.html.twig" %}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des Type{% endblock %}
+
+{% block body %}
+<div class="container">
+        <h4 class="ml-3 mt-5">Types enregistrés.</h4>
+
+        <div class="mt-5 d-flex justify-content-center">                
+                <a class="admin_anchor btn_admin btn btn-sm btn-outline-info" href="{{path('add_type')}}">Créer un Type.</a>
+        </div>
+
+        <div class="admin_comment d-flex justify-content-around mt-5">
+                {% for type in types %}
+                <div class="admin_single_comment border py-2 px-2">
+                        <p>{{ type.name }}</p>
+                        <form action="{{ path('type_delete') }}" method="post" class="d-flex justify-content-center py-2">
+                                <input type="hidden" name="type_id" value="{{type.id}}">
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-type') }}"/>
+                                <button type="submit" class="btn btn-sm btn-outline-danger">X</button>
+                        </form>
+                </div>
+                {% endfor %}
+        </div>
+
+        <div class="mt-5 d-flex justify-content-center">                
+                <a href="{{ path('admin') }}" class="btn_admin btn btn-sm btn-outline-info">Retour Administration Générale</a>
+        </div>
+</div>
+{% endblock %}

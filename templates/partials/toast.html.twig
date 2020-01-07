@@ -1,0 +1,126 @@
+<div class="toast"  role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-light">
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+            <strong class="ml-2">Wiwatt | Notifications</strong>
+           <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close" id="close-toast">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+         
+            {% for booking in app.user.ownerBookings %}
+                {% if booking.noticeOwnerStatus == 1 %}
+                
+                    {% if booking.status == 1 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="d-block text-secondary" href="{{ path('owner_historic') }}">
+                            <i class="fa fa-bell-o mr-2 green-bell" aria-hidden="true"></i>
+                            Nouvelle demande de {{ booking.renter.firstname| capitalize   }} {{ booking.renter.lastname | capitalize  }}
+                        </a>
+                        <form action="{{ path('closeNoticeOwner') }}" method="POST">
+                            <input type="hidden" name="token" value="{{ csrf_token('close-notice') }}">
+                            <input type="hidden" name="BookingId" value="{{ booking.id }}">
+                            <input type="hidden" name="role" value="{{ booking.renter }}">
+                            <button type="submit" class="btn">
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>  
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if booking.status == 5 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="d-block text-secondary" href="{{ path('add_review', {'booking' : booking.id}) }}">
+                            <i class="fa fa-bell-o mr-2 green-bell" aria-hidden="true"></i>
+                           La location est terminée. <br> vous pouvez noter {{ booking.renter.firstname| capitalize   }} {{ booking.renter.lastname | capitalize  }}. 
+                        </a>
+                        <form action="{{ path('closeNoticeOwner') }}" method="Post">
+                            <input type="hidden" name="token" value="{{ csrf_token('close-notice') }}">
+                            <input type="hidden" name="BookingId" value="{{ booking.id }}">
+                            <input type="hidden" name="role" value="{{ booking.renter }}">
+                            <button type="submit" class="btn">
+                                <i class="fa fa-times text-danger" aria-hidden="true"></i>  
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                {% endif %}
+           {% endfor %}
+        {# on est renter#}
+           {% for booking in app.user.renterBookings %}
+                {% if booking.noticeRenterStatus == 1 %}
+                
+                    {% if booking.status == 2 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="d-block text-secondary" href="{{ path('user_rental') }}">
+                            <i class="fa fa-bell-o mr-2 green-bell" aria-hidden="true"></i>
+                            {{ booking.owner.firstname | capitalize  }} {{ booking.owner.lastname | capitalize  }} a accepté votre demande.
+                        </a>
+                        <form action="{{ path('closeNoticeRenter') }}" method="Post">
+                            <input type="hidden" name="token" value="{{ csrf_token('close-notice') }}">
+                            <input type="hidden" name="BookingId" value="{{ booking.id }}">
+                            <input type="hidden" name="role" value="{{ booking.owner }}">
+                            <button type="submit" class="btn">
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>  
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if booking.status == 3 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="d-block text-secondary" href="{{ path('user_rental') }}">
+                            <i class="fa fa-bell-o mr-2 text-danger" aria-hidden="true"></i>
+                            {{ booking.owner.firstname | capitalize  }} {{ booking.owner.lastname | capitalize  }} a refusé votre demande.
+                        </a>
+                        <form action="{{ path('closeNoticeRenter') }}" method="Post">
+                            <input type="hidden" name="token" value="{{ csrf_token('close-notice') }}">
+                            <input type="hidden" name="BookingId" value="{{ booking.id }}">
+                            <input type="hidden" name="role" value="{{ booking.owner }}">
+                            <button type="submit" class="btn">
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>  
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if booking.status == 4 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="d-block text-secondary" href="{{ path('user_rental') }}">
+                            <i class="fa fa-bell-o mr-2 text-danger" aria-hidden="true"></i>
+                            {{ booking.owner.firstname| capitalize   }} {{ booking.owner.lastname | capitalize  }} a annulé votre demande.
+                        </a>
+                        <form action="{{ path('closeNoticeRenter') }}" method="Post">
+                            <input type="hidden" name="token" value="{{ csrf_token('close-notice') }}">
+                            <input type="hidden" name="BookingId" value="{{ booking.id }}">
+                            <input type="hidden" name="role" value="{{ booking.owner }}">
+                            <button type="submit" class="btn">
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>  
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    {% if booking.status == 5 %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a class="d-block text-secondary" href="{{ path('add_review', {'booking' : booking.id}) }}">
+                            <i class="fa fa-bell-o mr-2 green-bell" aria-hidden="true"></i>
+                            La location est terminée, vous pouvez noter {{ booking.owner.firstname| capitalize   }} {{ booking.owner.lastname | capitalize  }}. 
+                        </a>
+                        <form action="{{ path('closeNoticeRenter') }}" method="Post">
+                            <input type="hidden" name="token" value="{{ csrf_token('close-notice') }}">
+                            <input type="hidden" name="BookingId" value="{{ booking.id }}">
+                            <input type="hidden" name="role" value="{{ booking.owner }}">
+                            <button type="submit" class="btn">
+                                    <i class="fa fa-times text-danger" aria-hidden="true"></i>  
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+          
+            
+
+           
+
+        </div>
+</div>

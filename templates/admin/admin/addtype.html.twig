@@ -1,0 +1,35 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des Type{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h4 class="ml-3 mt-5">Créer un Type.</h4>
+
+    <div class="col-md-12 mt-3 mb-3 d-flex justify-content-center">
+        {{ form_start(typeForm) }}
+        {{ form_row(typeForm.name, {'attr' : { 'placeholder' :'Nouveau type' }}) }}              
+
+        <div class="mt-1 d-flex justify-content-center">
+            <button type="submit" class="btn btn-sm btn-outline-success">Ajouter le Type</button>
+        </div>
+        {{ form_end(typeForm) }}  
+    </div>       
+
+    
+    <div class="mt-5 d-flex justify-content-center">                
+        <a href="{{ path('admin') }}" class="btn_admin btn btn-sm btn-outline-info">Retour Administration Générale</a>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+

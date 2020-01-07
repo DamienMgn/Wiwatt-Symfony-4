@@ -1,0 +1,19 @@
+<h3>Bonjour {{booking.owner.firstname|capitalize}}</h3>
+<p>{{booking.renter.firstname|capitalize}} {{booking.renter.lastname|capitalize}} vous a noté {{score}} / 5 avec le commentaire suivant :
+<p>"{{ comment|capitalize }}"</p>
+<p>Vous pouvez également noter le locataire <a href="https://wiwatt.fr/user/renter/locations">ici.</a></p>
+<p>Noter un utilisateur est important: merci de vérifier votre commentaire avant tout envoi.</p>
+<p>Vous vous engagez à donner un avis reflétant la réalité.</p>
+<div>
+    <h4>Rappel de la location :</h4>
+    <ul>
+        <li>Type : {{booking.vehicle.type.name}}</li>
+        <li>Vehicule : {{booking.vehicle.brand}} {{booking.vehicle.model}}</li>
+        <li>Date de la location : {% for date in booking.date %} {{ date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }} -
+                {% endfor %}</li>
+        <li>Lieu de la location : {{booking.vehicle.city}} ( {{booking.vehicle.zipCode}} )</li>
+    </ul>
+</div>
+Bonne journée de la part de l'équipe Wiwatt.
+<br>
+<a href="https://wiwatt.fr/">Wiwatt</a>
