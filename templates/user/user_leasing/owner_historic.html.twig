@@ -45,7 +45,7 @@
                 >
                 <th scope="row"></th>
                 <td class="align-middle">
-                    <p>{{ ask.updatedAt |localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM à kk:mm')  }}</p>
+                    <p>{{ ask.updatedAt |localizeddate('none', 'none', 'en', null, 'EEEE d MMMM à kk:mm')  }}</p>
                 </td>
                 <td class="align-middle">
                     <a href="{{ path('one_user_information', {'user' : ask.renter.id }) }}">
@@ -105,7 +105,7 @@
                 </td>
                 <td class="align-middle">
                 {% for date in ask.date %}
-                    <p>{{ date |localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }}</p>
+                    <p>{{ date |localizeddate('none', 'none', 'en', null, 'EEEE d MMMM') }}</p>
                 {% endfor %}
                 </td>
                 <td class="align-middle">

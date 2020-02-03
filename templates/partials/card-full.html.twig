@@ -43,7 +43,7 @@
             {% for date in dates %}
             <div class="col-md-4 d-flex justify-content-center align-items-center date-selector">
                 <input id="input{{ date.id }}"  class="checkbox-reservation"  type="checkbox"  value="{{ date.id }}" name="inputDate[]">
-                <label for="input{{ date.id }}" >{{ date.availableDate |localizeddate('none', 'none', 'fr' , null, 'd MMMM')  }}</label>
+                <label for="input{{ date.id }}" >{{ date.availableDate |localizeddate('none', 'none', 'en' , null, 'd MMMM')  }}</label>
             </div>
             {% endfor %}
         </div>

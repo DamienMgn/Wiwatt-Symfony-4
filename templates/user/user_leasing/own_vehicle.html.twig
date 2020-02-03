@@ -18,7 +18,7 @@
                 <p class="text-center mt-3 text-small font-weight-bold">Dates disponibles</p>
                     <div class="text-center">
                         {% for date in vehicle.dates %}
-                            <p class="badge badge-info ">{{ date.availableDate | localizeddate('none', 'none','fr', null, 'd MMMM')  }}</p>
+                            <p class="badge badge-info ">{{ date.availableDate | localizeddate('none', 'none','en', null, 'd MMMM')  }}</p>
                         {% endfor %}
                     </div>
                     <hr>
