@@ -31,9 +31,9 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="show_home")
      */
-    public function home()
+    public function index()
     {
-        $lastVehicles =  $this->getDoctrine()->getRepository(Vehicle::class)->getLastVehicles() ;
+        $lastVehicles =  $this->getDoctrine()->getRepository(Vehicle::class)->getLastVehicles();
 
             return $this->render('home/index.html.twig', [
             'lastVehicles' => $lastVehicles,
@@ -75,7 +75,7 @@ class HomeController extends AbstractController
      /**
      * @Route("/contact", name="contact")
      */
-    public function contactUs(Request $request,\Swift_Mailer $mailer)
+    public function contact(Request $request,\Swift_Mailer $mailer)
     {
         $form = $this->createForm(ContactType::class);
 
@@ -130,7 +130,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/mentionslegales", name="mentionslegales_show")
+     * @Route("/mentions-legales", name="mentionslegales_show")
      */
     public function mentions()
     {

@@ -6,7 +6,7 @@
     <ul>
         <li>Type : {{vehicle.type.name}} </li>
         <li>Véhicule : {{vehicle.brand}} {{vehicle.model}}</li>
-        <li>Date de la location : {% for date in booking.date %}{{date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }} -
+        <li>Date de la location : {% for date in booking.date %}{{date|localizeddate('none', 'none', 'en', null, 'EEEE d MMMM') }} -
                                     {% set numberDates = numberDates + 1 %}
                                  {% endfor %} 
                                     {% set dayCost = vehicle.dayCost %} 

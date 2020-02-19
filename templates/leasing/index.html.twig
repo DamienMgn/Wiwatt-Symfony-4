@@ -83,7 +83,10 @@
         <div class="card-container row mt-5 d-flex">
 
                         {% for vehicle in vehicles %}
-                        <div data-longitude="{{ vehicle.longitude }}" data-latitude="{{ vehicle.latitude }}"  class="my-2 pb-3 pt-3 mx-auto carte col-lg-5 col-md-5 col-sm-5 border rounded-lg">
+                        <div 
+                            data-longitude="{{ vehicle.longitude }}"
+                            data-latitude="{{ vehicle.latitude }}" 
+                            class="my-2 pb-3 pt-3 mx-auto carte col-lg-5 col-md-5 col-sm-5 border rounded-lg">
                             {{ include('partials/card.html.twig') }}   
                         </div>
                         {% endfor %}       

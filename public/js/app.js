@@ -35,11 +35,6 @@ let app = {
         }) ;
 
         $('.toast').draggable() ;
-
-
-
-        
-       
          
         $("#edit_user_avatar").change(function(){
             $('[name="edit_user"]').submit() ;

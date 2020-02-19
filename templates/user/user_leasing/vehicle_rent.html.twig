@@ -44,7 +44,7 @@
                     >
                     <th scope="row"></th>
                     <td class="align-middle">
-                        <p>{{ ask.updatedAt | localizeddate('none', 'none', 'en', null, 'd/MM/YY à KK:mm') }}</p>
+                        <p>{{ ask.updatedAt | date("m/d/Y") }}</p>
                     </td>
                     <td class="align-middle">                        
                        <a href="{{ path('one_user_information', {'user' : ask.owner.id }) }}">

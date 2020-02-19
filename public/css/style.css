@@ -53,7 +53,7 @@ body{
 }
 .btn-success{
     color: white ;
-    border-color:  #0CD295 ;
+    border-color:  #0cd295 ;
     background : #0CD295 ;
 }
 .btn-success:hover{
@@ -205,7 +205,7 @@ font-weight: bold ;
 .page_error_oups{
   
     font-size: 10em;
-    background: linear-gradient(254deg, rgba(14,156,102,1) 0%, rgba(89,185,171,1) 56%, rgba(87,158,217,1) 100%);  
+    background: linear-gradient(254deg, rgba(12, 210, 149,1) 0%, rgba(89,185,171,1) 56%, rgba(87,158,217,1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -230,10 +230,9 @@ font-weight: bold ;
 
 
 #home-search{
-
-    background: url('/pictures/city3.jpeg') ;
+    background: url('/pictures/city3.jpeg');
+    background-size: cover;
     height: 500px ;
-    
     background-position: 0% 40%;
 }
 .text-shadow{
@@ -486,8 +485,7 @@ a:hover{
 .text-wiwatt{
 
     font-size: 2rem ;
-    
-background: linear-gradient(254deg, rgba(12, 210, 149,1) 0%, rgba(89,185,171,1) 56%, rgba(87,158,217,1) 100%);  
+    background: linear-gradient(254deg, rgba(12, 210, 149,1) 0%, rgba(89,185,171,1) 56%, rgba(87,158,217,1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     
@@ -500,7 +498,7 @@ background: linear-gradient(254deg, rgba(12, 210, 149,1) 0%, rgba(89,185,171,1) 
 .logo_home:hover {
     text-decoration: none ;
     cursor:pointer ;
-    background: linear-gradient(254deg, rgba(87,158,217,1) 0%, rgba(89,185,171,1) 56%,  rgba(12, 210, 149,1)100%);  
+    background: linear-gradient(254deg, rgba(12, 210, 149,1) 0%, rgba(89,185,171,1) 56%, rgba(87,158,217,1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 

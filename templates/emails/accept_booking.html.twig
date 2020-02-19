@@ -5,7 +5,7 @@
         <li>Type : {{booking.vehicle.type.name}} </li>
         <li>Vehicule : {{booking.vehicle.brand}} {{booking.vehicle.model}}</li>
         <li>{% set numberDates = 0 %}
-                Date de la location : {% for date in booking.date %} {{ date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }} -
+                Date de la location : {% for date in booking.date %} {{ date|localizeddate('none', 'none', 'en', null, 'EEEE d MMMM') }} -
                                             {% set numberDates = numberDates + 1 %} 
                                         {% endfor %}  
                 

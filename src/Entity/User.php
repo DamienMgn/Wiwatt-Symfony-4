@@ -50,6 +50,13 @@ class User extends BaseUser
      * @ORM\Column(type="string", length=255 , nullable=true)
      */
     private $avatar;
+
+    /**
+     *  @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
+     */
+    protected $email;
    
     /**
      * @ORM\Column(type="float",nullable=true)
@@ -70,9 +77,6 @@ class User extends BaseUser
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
-
-
-    
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vehicle", mappedBy="user", orphanRemoval=true)

@@ -4,7 +4,7 @@
     <ul>
         <li>Type : {{booking.vehicle.type.name}} </li>
         <li>Véhicule : {{booking.vehicle.brand}} {{booking.vehicle.model}}</li>
-        <li>Date de la location : {% for date in booking.date %} {{ date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM') }} -
+        <li>Date de la location : {% for date in booking.date %} {{ date|localizeddate('none', 'none', 'en', null, 'EEEE d MMMM') }} -
                 {% endfor %}</li></li>
         <li>Lieu de la location : {{booking.vehicle.city}} ( {{booking.vehicle.zipCode}} )</li>
     </ul>

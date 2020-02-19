@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Date;
 use App\Entity\Booking;
 use App\Entity\Vehicle;
-use App\Service\Search;
+use App\Service\SearchVehicles;
 use App\Entity\BookingStatus;
 use App\Entity\SearchFilter;
 use App\Form\SearchFilterType;
@@ -20,36 +20,44 @@ class LeasingController extends AbstractController
 {
     
     /**
-     * @Route("/locations", name="leasing_index")
+     * @Route("/annonces", name="leasing_index")
      */
-    public function index(Request $request, Search $search)
+    public function index(Request $request, SearchVehicles $searchVehicles)
     {
 
-        $longitude = $request->query->get('longitude');
-        $latitude = $request->query->get('latitude');
-        $dates = $request->query->get('date');
+        $city = $request->query->get('city');
         $token = $request->query->get('token');
+        $dates = $request->query->get('date');
 
         $vehicles = [];
 
-        $vehicleFilter = new SearchFilter;
+        $searchFilter = new SearchFilter;
 
-        $form = $this->createForm(SearchFilterType::class, $vehicleFilter);
+        $form = $this->createForm(SearchFilterType::class, $searchFilter);
+
         $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()) {
-                $vehicles = $search->search($dates, $longitude, $latitude, $vehicleFilter);
-            }
+        // Envoi du formulaire depuis la Home
 
-            if ($this->isCsrfTokenValid('date-form', $token)) {
-                $vehicles = $search->search($dates, $longitude, $latitude, $vehicleFilter);
-            }
+        if ($this->isCsrfTokenValid('date-form', $token)) {
+            $vehicles = $searchVehicles->searchVehicles($dates, $city, $searchFilter);
+        }
+
+        // Envoi du formulaire depuis la page Annonces
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $vehicles = $searchVehicles->searchVehicles($dates, $city, $searchFilter);
+
+            // Destruction des variables pour vider les inputs
+
+            unset($searchFilter);
+            unset($form);
+            
+            $searchFilter = new SearchFilter();
+            $form = $this->createForm(SearchFilterType::class, $searchFilter);
+        }
     
-        unset($vehicleFilter);
-        unset($form);
-        $vehicleFilter = new SearchFilter();
-        $form = $this->createForm(SearchFilterType::class, $vehicleFilter);
-
         return $this->render('leasing/index.html.twig', [
             'vehicles' => $vehicles,
             'form' => $form->createView(),
@@ -57,7 +65,7 @@ class LeasingController extends AbstractController
     }
 
     /**
-     * @Route("/location/{id}/voir-annonce", name="show_leasing")
+     * @Route("/annonce/{id}/voir-annonce", name="show_leasing")
      */
     public function showLocation(Request $request , Vehicle $vehicle , ObjectManager $em,  \Swift_Mailer $mailer)
     {

@@ -28,122 +28,14 @@ class VehicleRepository extends ServiceEntityRepository
     * @return Vehicle[] Returns an array of Vehicle objects
     */
 
-    public function findByDistances($longitude, $latitude, SearchFilter $vehicleFilter)
+    public function findByFilters(SearchFilter $searchFilter)
     {
+        $vehicles = $this->vehicleFilter($searchFilter);
 
-        $vehicles = $this->vehicleFilter($vehicleFilter);
-
-        $distancesVehicles = [] ;
-
-        foreach($vehicles as $vehicle){
-
-
-         $distance =  self::distance($longitude, $latitude , $vehicle->getLongitude() ,$vehicle->getLatitude() , $unit = 'k' ) ;
-
-         if ($distance <= 20) {
-            $distancesVehicles[] = $vehicle;
-         }
-
-        }
-
-        $VehiclesMatch = [];
-
-        foreach ($distancesVehicles as $vehicle) {
-
-            foreach ($vehicle->getDates() as $date) {
-                if ($date->getAvailableDate() >= $this->dateTime) {
-                    $VehiclesMatch[] = $vehicle;
-                    break;
-                }
-            }
-
-        }
-        
-        return $VehiclesMatch;
-
+        return $vehicles;
     }
 
-    /**
-    * @return Vehicle[] Returns an array of Vehicle objects
-    */
-
-    public function findByDistancesAndDates($longitude, $latitude, $datesUser, SearchFilter $vehicleFilter)
-    {
-
-        $vehicles = $this->vehicleFilter($vehicleFilter);
-
-        $distancesVehicles = [] ;
-
-        foreach($vehicles as $vehicle){
-
-
-         $distance =  self::distance($longitude, $latitude , $vehicle->getLongitude() ,$vehicle->getLatitude() , $unit = 'k' ) ;
-
-         if ($distance <= 20) {
-            $distancesVehicles[] = $vehicle;
-         }
-
-        }
-        
-        $vehiclesMatch = [];
-
-        // Get Dates by vehicles
-        foreach ($distancesVehicles as $vehicle) {
-
-            $datesMatch = [];
-
-            foreach ($vehicle->getDates() as $date) {
-                if (true) {
-                    $datesMatch[] = [$date->getAvailableDate()];
-                }
-            }
-
-            $datesArray = [];
-
-            foreach ($datesMatch as $date) {
-                $datesArray[] = $date[0];
-            }
-
-            $vehicleMatch = false;
-
-            // Check if userDates match with véhicle dates
-            foreach ($datesUser as $dateUser) {
-                if (in_array($dateUser, $datesArray)) {
-                    $vehicleMatch = true;
-                } else {
-                    $vehicleMatch = false;
-                    break;
-                }
-            }
-
-            if ($vehicleMatch) {
-                $vehiclesMatch[] = $vehicle;
-            } 
-        }
-
-        return $vehiclesMatch ;
-
-    }
-
-    public static function distance($lat1, $lng1, $lat2, $lng2, $unit = 'k') {
-        $earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
-        $rlo1 = deg2rad($lng1);
-        $rla1 = deg2rad($lat1);
-        $rlo2 = deg2rad($lng2);
-        $rla2 = deg2rad($lat2);
-        $dlo = ($rlo2 - $rlo1) / 2;
-        $dla = ($rla2 - $rla1) / 2;
-        $a = (sin($dla) * sin($dla)) + cos($rla1) * cos($rla2) * (sin($dlo) * sin($dlo));
-        $d = 2 * atan2(sqrt($a), sqrt(1 - $a));
-        //
-        $meter = ($earth_radius * $d);
-        if ($unit == 'k') {
-            return $meter / 1000;
-        }
-    }
-
-
-    public function vehicleFilter($vehicleFilter) {
+    private function vehicleFilter($vehicleFilter) {
         // All vehicles by city
         $vehicles = $this->createQueryBuilder('v')
             ->andWhere('v.status = 1')
