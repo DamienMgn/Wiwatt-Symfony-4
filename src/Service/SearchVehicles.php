@@ -40,12 +40,7 @@ class SearchVehicles
             $distance =  self::distance($longitude, $latitude , $vehicle->getLongitude() ,$vehicle->getLatitude() , $unit = 'k' );
 
             if ($distance <= 20) {
-                foreach ($vehicle->getDates() as $date) {
-                    if ($date->getAvailableDate() >= $this->dateTime) {
-                        $vehiclesMatch[] = $vehicle;
-                        break;
-                    }
-                }
+                $vehiclesMatch[] = $vehicle;
             }
         }
 

@@ -6,6 +6,7 @@ use App\Entity\Vehicle;
 use App\Entity\SearchFilter;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @method Vehicle|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,85 +28,76 @@ class VehicleRepository extends ServiceEntityRepository
     /**
     * @return Vehicle[] Returns an array of Vehicle objects
     */
+    public function findByFilters(SearchFilter $searchFilter) {
 
-    public function findByFilters(SearchFilter $searchFilter)
-    {
-        $vehicles = $this->vehicleFilter($searchFilter);
+        // All vehicule by status AND minimum one available date
+        $sql = '
+        SELECT v
+        FROM App\Entity\Vehicle v
+        WHERE EXISTS(SELECT d
+            FROM App\Entity\Date d
+            WHERE d.vehicle = v.id
+            AND d.availableDate > :date)
+                AND v.status = :status
+            ';
 
-        return $vehicles;
-    }
+        $parameters['date'] = $this->dateTime;
+        $parameters['status'] = 1;
 
-    private function vehicleFilter($vehicleFilter) {
-        // All vehicles by city
-        $vehicles = $this->createQueryBuilder('v')
-            ->andWhere('v.status = 1')
-            ->orderBy('v.createdAt', 'DESC')
-        ;
-
-        if ($vehicleFilter->getBrand()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.brand LIKE :brand')
-                    ->setParameter('brand', '%'.$vehicleFilter->getBrand().'%')
-                    ;  
+        if ($searchFilter->getBrand()) {
+                    $sql = $sql . ' AND v.brand LIKE :brand';
+                    $parameters['brand'] = '%'.$searchFilter->getBrand().'%';
         }
 
-        if ($vehicleFilter->getModel()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.model LIKE :model')
-                    ->setParameter('model', '%'.$vehicleFilter->getModel().'%')
-                    ;  
+        if ($searchFilter->getModel()) {
+                    $sql = $sql . ' AND v.model LIKE :model';
+                    $parameters['model'] = '%'.$searchFilter->getModel().'%';
         }
 
-        if ($vehicleFilter->getSeatNumber()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.seatNumber >= :seat')
-                    ->setParameter('seat', $vehicleFilter->getSeatNumber())
-                    ;  
+        if ($searchFilter->getSeatNumber()) {
+                    $sql = $sql . ' AND v.seatNumber >= :seat';
+                    $parameters['seat'] = $searchFilter->getSeatNumber();
         }
 
-        if ($vehicleFilter->getMaxSpeed()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.maxSpeed >= :speed')
-                    ->setParameter('speed', $vehicleFilter->getMaxSpeed())
-                    ;  
+        if ($searchFilter->getMaxSpeed()) {
+                    $sql = $sql . ' AND v.maxSpeed >= :speed';
+                    $parameters['speed'] = $searchFilter->getMaxSpeed();
         }
 
-        if ($vehicleFilter->getWeight()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.weight <= :weight')
-                    ->setParameter('weight', $vehicleFilter->getWeight())
-                    ;  
+        if ($searchFilter->getWeight()) {
+                    $sql = $sql . ' AND v.weight <= :weight';
+                    $parameters['weight'] = $searchFilter->getWeight();
         }
 
-        if ($vehicleFilter->getPower()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.power >= :power')
-                    ->setParameter('power', $vehicleFilter->getPower())
-                    ;  
+        if ($searchFilter->getPower()) {
+                    $sql = $sql . ' AND v.power >= :power';
+                    $parameters['power'] = $searchFilter->getPower(); 
         }
 
-        if ($vehicleFilter->getAutonomy()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.autonomy >= :autonomy')
-                    ->setParameter('autonomy', $vehicleFilter->getAutonomy())
-                    ;  
+        if ($searchFilter->getAutonomy()) {
+                    $sql =  $sql . ' AND v.autonomy >= :autonomy';
+                    $parameters['autonomy'] = $searchFilter->getAutonomy();  
         }
 
-        if ($vehicleFilter->getDayCost()) {
-            $vehicles = $vehicles
-                    ->andWhere('v.dayCost <= :price')
-                    ->setParameter('price', $vehicleFilter->getDayCost())
-                    ;  
+        if ($searchFilter->getDayCost()) {
+                    $sql = $sql . ' AND v.dayCost <= :price';
+                    $parameters['price'] = $searchFilter->getDayCost();  
         }
 
-        if ($vehicleFilter->getType()) {
-                $vehicles = $vehicles
-                ->andWhere('v.type IN (:type)')
-                ->setParameter('type', $vehicleFilter->getType())
-                ;  
-            }
+        if ($searchFilter->getType()) {
+                    $sql = $sql .' AND v.type IN (:type)';
+                    $parameters['type'] = $searchFilter->getType();  
+        }
 
-        return $vehicles->getQuery()->getResult();
+        $sql = $sql . ' ORDER BY v.createdAt DESC';
+
+        $entityManager = $this->getEntityManager();
+
+        $vehicles = $entityManager->createQuery(
+            $sql
+        )->setParameters($parameters);
+
+        return $vehicles->getResult();
     }
 
     

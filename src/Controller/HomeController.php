@@ -79,8 +79,6 @@ class HomeController extends AbstractController
     {
         $form = $this->createForm(ContactType::class);
 
-        
- 
         $form->handleRequest($request);
         $data = $form->getData();
         
@@ -88,9 +86,6 @@ class HomeController extends AbstractController
         $email = $data['email'] ;
         $about = $data['about'] ;
         $content = $data['content'] ;
-        
-
-        
 
         if ($form->isSubmitted() && $form->isValid()) {
 
