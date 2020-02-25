@@ -31,7 +31,7 @@ class VehicleRepository extends ServiceEntityRepository
     public function findByFilters(SearchFilter $searchFilter) {
 
         // All vehicule by status AND minimum one available date
-        $sql = '
+        $dql = '
         SELECT v
         FROM App\Entity\Vehicle v
         WHERE EXISTS(SELECT d
@@ -45,56 +45,56 @@ class VehicleRepository extends ServiceEntityRepository
         $parameters['status'] = 1;
 
         if ($searchFilter->getBrand()) {
-                    $sql = $sql . ' AND v.brand LIKE :brand';
+                    $dql = $dql . ' AND v.brand LIKE :brand';
                     $parameters['brand'] = '%'.$searchFilter->getBrand().'%';
         }
 
         if ($searchFilter->getModel()) {
-                    $sql = $sql . ' AND v.model LIKE :model';
+                    $dql = $dql . ' AND v.model LIKE :model';
                     $parameters['model'] = '%'.$searchFilter->getModel().'%';
         }
 
         if ($searchFilter->getSeatNumber()) {
-                    $sql = $sql . ' AND v.seatNumber >= :seat';
+                    $dql = $dql . ' AND v.seatNumber >= :seat';
                     $parameters['seat'] = $searchFilter->getSeatNumber();
         }
 
         if ($searchFilter->getMaxSpeed()) {
-                    $sql = $sql . ' AND v.maxSpeed >= :speed';
+                    $dql = $dql . ' AND v.maxSpeed >= :speed';
                     $parameters['speed'] = $searchFilter->getMaxSpeed();
         }
 
         if ($searchFilter->getWeight()) {
-                    $sql = $sql . ' AND v.weight <= :weight';
+                    $dql = $dql . ' AND v.weight <= :weight';
                     $parameters['weight'] = $searchFilter->getWeight();
         }
 
         if ($searchFilter->getPower()) {
-                    $sql = $sql . ' AND v.power >= :power';
+                    $dql = $dql . ' AND v.power >= :power';
                     $parameters['power'] = $searchFilter->getPower(); 
         }
 
         if ($searchFilter->getAutonomy()) {
-                    $sql =  $sql . ' AND v.autonomy >= :autonomy';
+                    $dql =  $dql . ' AND v.autonomy >= :autonomy';
                     $parameters['autonomy'] = $searchFilter->getAutonomy();  
         }
 
         if ($searchFilter->getDayCost()) {
-                    $sql = $sql . ' AND v.dayCost <= :price';
+                    $dql = $dql . ' AND v.dayCost <= :price';
                     $parameters['price'] = $searchFilter->getDayCost();  
         }
 
         if ($searchFilter->getType()) {
-                    $sql = $sql .' AND v.type IN (:type)';
+                    $dql = $dql .' AND v.type IN (:type)';
                     $parameters['type'] = $searchFilter->getType();  
         }
 
-        $sql = $sql . ' ORDER BY v.createdAt DESC';
+        $dql = $dql . ' ORDER BY v.createdAt DESC';
 
         $entityManager = $this->getEntityManager();
 
         $vehicles = $entityManager->createQuery(
-            $sql
+            $dql
         )->setParameters($parameters);
 
         return $vehicles->getResult();

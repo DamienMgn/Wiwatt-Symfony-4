@@ -69,7 +69,7 @@ class LeasingController extends AbstractController
      */
     public function showLocation(Request $request , Vehicle $vehicle , ObjectManager $em,  \Swift_Mailer $mailer)
     {
-        $dates = $this->getDoctrine()->getRepository(Date::class)->getAvailableDates( $vehicle ) ;
+        $dates = $this->getDoctrine()->getRepository(Date::class)->getAvailableDates( $vehicle );
 
         $token = $request->request->get('token');
 
@@ -77,80 +77,69 @@ class LeasingController extends AbstractController
 
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-            $arrayDatesID = $request->request->get('inputDate') ;
-
-            $arrayDates = [];
+            $arrayDatesID = $request->request->get('inputDate');
 
             if ($arrayDatesID == null) {
-
                 $this->addFlash('danger' , 'Veuillez choisir des dates.');
-
                 return $this->redirect($request->getUri());
             }
 
+            $arrayDates = [];
+
             foreach($arrayDatesID as $dateId){
-
                 $date = $this->getDoctrine()->getRepository(Date::class)->find($dateId);
-
-                $dateAvailable = $date->getAvailableDate()->format('m/d/Y');
-
-                $arrayDates[]  = $dateAvailable;
+                    if ($date->getVehicle() === $vehicle) {
+                        $arrayDates[] = $date->getAvailableDate()->format('m/d/Y');
+                    } else {
+                        $this->addFlash('danger' , 'Les dates ne correspondent pas');
+                        return $this->redirect($request->getUri());
+                    }
             }
 
             if ($this->getUser() != $vehicle->getUser() ){
 
-            $booking = new Booking ;
+                $booking = new Booking ;
 
-            $booking->setDate($arrayDates);
-            $booking->setVehicle($vehicle) ;            
-            $booking->setOwner( $vehicle->getUser());
-            $booking->setRenter($this->getUser());
-            $booking->setStatus(1);
-            $booking->setDateRenter($arrayDatesID) ;
-            $booking->setNoticeRenterStatus(0);
+                $booking->setDate($arrayDates);
+                $booking->setVehicle($vehicle) ;            
+                $booking->setOwner( $vehicle->getUser());
+                $booking->setRenter($this->getUser());
+                $booking->setStatus(1);
+                $booking->setDateRenter($arrayDatesID);
+                $booking->setNoticeRenterStatus(0);
 
-            $em->persist($booking);
-            $em->flush() ;
+                $em->persist($booking);
+                $em->flush();
 
-            $message = (new \Swift_Message('Wiwatt : Demande de Réservation'))
-            ->setFrom($this->getUser()->getEmail())
-            ->setTo($vehicle->getUser()->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/ask_booking.html.twig',
-                    ['userRenter' => $this->getUser(), 
-                    'userOwner' => $vehicle->getUser(),
-                    'vehicle' => $vehicle,
-                    'booking' => $booking,
-                    ]
-                ),
-                'text/html'
-            )
-            ;
-    
-            $mailer->send($message);
+                $message = (new \Swift_Message('Wiwatt : Demande de Réservation'))
+                ->setFrom($this->getUser()->getEmail())
+                ->setTo($vehicle->getUser()->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/ask_booking.html.twig',
+                        ['userRenter' => $this->getUser(), 
+                        'userOwner' => $vehicle->getUser(),
+                        'vehicle' => $vehicle,
+                        'booking' => $booking,
+                        ]
+                    ),
+                    'text/html'
+                );
+        
+                $mailer->send($message);
 
-            $this->addFlash('success' , 'Demande envoyée à '. $vehicle->getUser()->getFirstname(). ' ' . $vehicle->getUser()->getLastname().'.' ) ;
+                $this->addFlash('success' , 'Demande envoyée à '. $vehicle->getUser()->getFirstname(). ' ' . $vehicle->getUser()->getLastname().'.' );
 
-            return $this->redirect($request->getUri());
+                return $this->redirect($request->getUri());
 
             } else if ( $this->getUser() == $vehicle->getUser() ){
-
-                $this->addFlash('danger' , 'Vous ne pouvez pas louer votre propre véhicule') ; 
-
+                $this->addFlash('danger' , 'Vous ne pouvez pas louer votre propre véhicule'); 
             }
-
         }
 
         return $this->render('leasing/show_leasing.html.twig',[
             'vehicle' => $vehicle,
             'dates' => $dates            
         ]);
-        
     }
-
-
-
-
-
 }

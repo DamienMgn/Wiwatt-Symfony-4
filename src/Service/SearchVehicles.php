@@ -82,23 +82,17 @@ class SearchVehicles
 
         foreach ($vehicles as $vehicle) {
 
-            $datesMatch = [];
+            $arrayDatesVehicles = [];
 
             foreach ($vehicle->getDates() as $date) {
-                    $datesMatch[] = [$date->getAvailableDate()];
+                    $arrayDatesVehicles[] = [$date->getAvailableDate()][0];
                 }
-
-            $datesArray = [];
-
-            foreach ($datesMatch as $date) {
-                $datesArray[] = $date[0];
-            }
 
             $vehicleMatch = false;
 
             // Check if userDates match with véhicle dates
             foreach ($arrayDatesTime as $dateUser) {
-                if (in_array($dateUser, $datesArray)) {
+                if (in_array($dateUser, $arrayDatesVehicles)) {
                     $vehicleMatch = true;
                 } else {
                     $vehicleMatch = false;

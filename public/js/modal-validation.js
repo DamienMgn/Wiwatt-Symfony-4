@@ -9,14 +9,12 @@ let modal = {
                 var label = $(this).next("label").text();
 
                 checkboxLabel.push(label);
-
             }
             else if($(this).prop("checked") == false){
 
                 var label = $(this).next("label").text();
 
                 checkboxLabel.splice($.inArray(label, checkboxLabel),1);
-
             }
         })
 
@@ -37,10 +35,8 @@ let modal = {
             var totalPrice = days * price;
 
             $('.total-price').html(totalPrice);
-
         })
     }
-
 }
 
 $(modal.init);

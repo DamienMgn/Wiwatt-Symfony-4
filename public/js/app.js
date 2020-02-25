@@ -176,21 +176,6 @@ let app = {
 
         }) ;
 
-         
-          if( $('#map-resultats').length > 0 ){
-              
-            app.currentResult = app.extractUrlParams() ;
-
-            app.leasingIndexMap = L.map('map-resultats').setView([app.currentResult.latitude ,app.currentResult.longitude ], 12);
-
-          L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(app.leasingIndexMap);
-
-            app.getAvailableMarker() ;
-
-          }
-
 
         $('#vehicle_adress').keydown(app.foundAdress) ;  
         
@@ -377,65 +362,6 @@ let app = {
         }
         return f;
     },
-
-onOver: function($unActiveIcon, $activeIcon, $allMarkers, $popup, i) {
-    if (app.hoverMarker !== 0) {
-        app.hoverMarker.setIcon($unActiveIcon);
-        app.hoverMarker.setZIndexOffset(10);
-    }
-    $allMarkers[i].setIcon($activeIcon);
-    $popup.openPopup();
-    $allMarkers[i].setZIndexOffset(100);
-
-    app.hoverMarker = $allMarkers[i];
-},
-
-    
-
-getAvailableMarker : function(){
-
-    let $allCards = $('.carte') ;
-
-    let $allMarkers = [];
-
-    let $activeIcon = L.icon({
-        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-        popupAnchor: [0, -30],
-        shadowSize: [41, 41]
-    });
-
-    let $unActiveIcon = L.icon({
-        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-    });
-
-    for ( let i = 0 ; i < $allCards.length ; i++ ){
-
-        let $marker = L.marker( [ $($allCards[i]).attr('data-latitude'),  $($allCards[i]).attr('data-longitude')]).addTo(app.leasingIndexMap);
-        
-        let $popup = $marker.bindPopup($($allCards[i]).find('.image-container').html() + $($allCards[i]).find('.show-annonce').html());
-        $allMarkers.push($marker);
-
-        $($allCards[i]).mouseover(function() {
-            app.onOver($unActiveIcon, $activeIcon, $allMarkers, $popup, i);
-        })
-
-        $($marker).mouseover(function() {
-            app.onOver($unActiveIcon, $activeIcon, $allMarkers, $popup, i);
-            $($allCards[i]).addClass('carte-active')
-        })
-
-        $($marker).mouseleave(function() {
-            $($allCards[i]).removeClass('carte-active');
-        })
-    }
-
-
-
-
-}
-
-
 }
 
 
