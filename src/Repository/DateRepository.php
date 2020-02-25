@@ -39,7 +39,6 @@ class DateRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-
         return $dates;
     }
 

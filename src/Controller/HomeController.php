@@ -41,6 +41,7 @@ class HomeController extends AbstractController
     }
     
      /**
+      * Retourne un JSON des marqueurs pour la map
      * @Route("/marker/vehicule/all", name="all_vehicle_marker")
      */
     public function allMarker(){
@@ -100,15 +101,12 @@ class HomeController extends AbstractController
                     'content'  => $content ]
                 ),
                 'text/html'
-            )
-            ;
+            );
 
             $mailer->send($message);
 
-
-    $this->addFlash('success' , 'Votre message a été envoyé. Wiwatt vous répondra sous 48h.');
-    return $this->redirectToRoute('contact') ;
-
+            $this->addFlash('success' , 'Votre message a été envoyé. Wiwatt vous répondra sous 48h.');
+            return $this->redirectToRoute('contact');
         }
 
         return $this->render('home/contact.html.twig', [
@@ -137,11 +135,9 @@ class HomeController extends AbstractController
      */
     public function closeNoticeOwner(Request $request, ObjectManager $em)
     {
-
         $token = $request->request->get('token');
         $bookingId = $request->request->get('BookingId');
         $role = $request->request->get('role');
-
 
         if ($this->isCsrfTokenValid('close-notice', $token) ) {
 
@@ -165,7 +161,6 @@ class HomeController extends AbstractController
      */
     public function closeNoticeRenter(Request $request, ObjectManager $em)
     {
-
         $token = $request->request->get('token');
         $bookingId = $request->request->get('BookingId');
         $role = $request->request->get('role');
@@ -190,9 +185,7 @@ class HomeController extends AbstractController
      */
     public function isNewMessage()
     {
-
         if ( $this->getUser() == null ){
-
             return $this->json(false) ;
         }
 
@@ -200,7 +193,6 @@ class HomeController extends AbstractController
 
         $bookingsOwner = $user->getOwnerBookings() ;
         $bookingsRenter = $user->getRenterBookings() ;
-
 
         foreach($bookingsOwner as $notice) {
             if ($notice->getNoticeOwnerStatus() == 1) {
@@ -210,8 +202,6 @@ class HomeController extends AbstractController
         }
 
         foreach($bookingsRenter as $notice) {
-            
-
             if ($notice->getNoticeRenterStatus() == 1) {
                 return $this->json(true);
                 break ;
@@ -219,12 +209,8 @@ class HomeController extends AbstractController
         }
 
         return $this->json(false) ;
-
-
     }
 
-
-        // Connexion inscription version Desktop
     /**
      * @Route("/us", name="us_page")
      */

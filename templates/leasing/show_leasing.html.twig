@@ -5,84 +5,83 @@
 {% block body %}
 
 <form action="" method="POST"> 
-        <div class="container-fluid d-flex align-items-center flex-column">   
+    <div class="container-fluid d-flex align-items-center flex-column">   
+        
+        <div class="my-2 pt-3 pb-3 carte col-xl-4 col-md-6 col-sm-10  border rounded-lg shadow">  
+            {{ include('partials/card-full.html.twig') }}
             
-            <div class="my-2 pt-3 pb-3 carte col-xl-4 col-md-6 col-sm-10  border rounded-lg shadow">  
-                {{ include('partials/card-full.html.twig') }}
-                
-            </div>
+        </div>
 
-            {{ include('partials/card-one-user.html.twig' , {'user' : vehicle.user}) }}
+        {{ include('partials/card-one-user.html.twig' , {'user' : vehicle.user}) }}
 
-            <!-- Button trigger modal
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Launch demo modale
-            </button> -->
-            
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Détails de votre réservation</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <!-- Button trigger modal
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Launch demo modale
+        </button> -->
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Détails de votre réservation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid d-flex align-items-center flex-column">   
+
+                            <div class="my-2 pt-3 pb-3 carte col-xl-10 col-md-10 col-sm-10  border rounded-lg shadow">
+
+                                <div class="text-center">
+                                    <p class="font-weight-bold h4 ">{{ vehicle.type.name|capitalize }} {{ vehicle.brand|capitalize }} {{ vehicle.model|capitalize }}</p>
+                                </div>
+
+                                <div class="d-flex  mt-3">                  
+                                    <ul>
+                                        <li>Puissance : <span class="text-small"> {{ vehicle.power }}W </span></li>
+                                        <li>Autonomie :<span class="text-small"> {{ vehicle.autonomy }} kms </span></li>
+                                        <li>Vitesse maxi :<span class="text-small"> {{ vehicle.maxSpeed }} km/h </span></li>
+                                        <li>Nombre de place :<span class="text-small"> {{ vehicle.seatNumber }}</span></li>
+                                        <li>Poids :<span class="text-small"> {{ vehicle.weight }} kgs</span></li>                    
+                                    </ul>                        
+                                </div>
+
+                                <div class="d-flex flex-column ">
+                                    <p class="mt-1">Description : "{{ vehicle.description|capitalize }}" </p>
+                                    <p class="mt-2">Adresse : {{ vehicle.adress|capitalize }} ( {{ vehicle.zipCode }} )</p>   
+                                    <p class="mt-2">Propriétaire : {{ vehicle.user.firstname|capitalize }} {{ vehicle.user.lastname|capitalize }}</p>             
+                                </div>
+                        
+                                <hr>
+                                <div >
+                                    <div class="mb-4 ">
+                                        <p class="text-sm">Les dates que vous avez choisies :</p>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <ul class="chosen-dates">
+                                        </ul>                         
+                                    </div>
+                                </div>
+                                    {% set dayCost = vehicle.dayCost %}
+                                    {%  set totalPriceBooking = dayCost %}
+                                <div>
+                                    <p>Tarif : <span class="total-price"></span> euros.</p>
+                                </div>                                                                                               
+                            </div>    
                         </div>
-                        <div class="modal-body">
-                            <div class="container-fluid d-flex align-items-center flex-column">   
-
-                                <div class="my-2 pt-3 pb-3 carte col-xl-10 col-md-10 col-sm-10  border rounded-lg shadow">
-
-                                    <div class="text-center">
-                                        <p class="font-weight-bold h4 ">{{ vehicle.type.name|capitalize }} {{ vehicle.brand|capitalize }} {{ vehicle.model|capitalize }}</p>
-                                    </div>
-
-                                    <div class="d-flex  mt-3">                  
-                                        <ul>
-                                            <li>Puissance : <span class="text-small"> {{ vehicle.power }}W </span></li>
-                                            <li>Autonomie :<span class="text-small"> {{ vehicle.autonomy }} kms </span></li>
-                                            <li>Vitesse maxi :<span class="text-small"> {{ vehicle.maxSpeed }} km/h </span></li>
-                                            <li>Nombre de place :<span class="text-small"> {{ vehicle.seatNumber }}</span></li>
-                                            <li>Poids :<span class="text-small"> {{ vehicle.weight }} kgs</span></li>                    
-                                        </ul>                        
-                                    </div>
-
-                                    <div class="d-flex flex-column ">
-                                        <p class="mt-1">Description : "{{ vehicle.description|capitalize }}" </p>
-                                        <p class="mt-2">Adresse : {{ vehicle.adress|capitalize }} ( {{ vehicle.zipCode }} )</p>   
-                                        <p class="mt-2">Propriétaire : {{ vehicle.user.firstname|capitalize }} {{ vehicle.user.lastname|capitalize }}</p>             
-                                    </div>
-                            
-                                    <hr>
-                                    <div >
-                                        <div class="mb-4 ">
-                                            <p class="text-sm">Les dates que vous avez choisies :</p>
-                                        </div>
-                                        <div class="d-flex flex-column">
-                                            <ul class="chosen-dates">
-                                            </ul>                         
-                                        </div>
-                                    </div>
-                                        {% set dayCost = vehicle.dayCost %}
-                                        {%  set totalPriceBooking = dayCost %}
-                                    <div>
-                                        <p>Tarif : <span class="total-price"></span> euros.</p>
-                                    </div>                                                                                               
-                                </div>    
-                            </div>
-                        </div>
-                        <div class="modal-footer">     
-                            <input type="hidden" name="token" value="{{ csrf_token('booking-ask') }}"/>
-                            <button type="submit" class="btn btn-outline-info">Valider cette réservation</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">     
+                        <input type="hidden" name="token" value="{{ csrf_token('booking-ask') }}"/>
+                        <button type="submit" class="btn btn-outline-info">Valider cette réservation</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     </div>
                 </div>
             </div>
-            <!-- Fin modal -->
-            
         </div>
+        <!-- Fin modal -->
+    </div>
 </form>
                     
                         

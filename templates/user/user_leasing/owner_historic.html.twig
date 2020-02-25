@@ -4,7 +4,6 @@
 
 {% block body %}
 <div class="container px-0">
-
     <div class="row">
         <div class="col text-center">
             <a class="nav-link font-weight-bold position-relative" href="{{ path('owner_historic') }}"><img src="{{ asset('pictures/bolt.png') }}" height="20" alt="circle" class="bolt">En tant que proprietaire</a>
@@ -13,9 +12,6 @@
            <a class="nav-link text-secondary" href="{{ path('user_rental') }}">En tant que locataire</a>     
         </div>
     </div>
-       
- 
-
 <div class="table-responsive">    
     <table class="table border container mt-5 text-center">
         <thead>
@@ -30,7 +26,6 @@
           </tr>
         </thead>
         <tbody>
-          
             {% for ask in bookings %}
                 <tr {% if ask.status == 2 %}
                 class="bg-validate"

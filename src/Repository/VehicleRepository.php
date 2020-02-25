@@ -100,10 +100,12 @@ class VehicleRepository extends ServiceEntityRepository
         return $vehicles->getResult();
     }
 
-    
+    // on récupére tous les véhicules disponibles est avec minimum une date supérieure à la date du jour
+    /**
+    * @return Vehicle[] Returns an array of Vehicle objects
+    */
     public function findByAvailableDates()
     {
-
         $vehicles = $this->createQueryBuilder('v')
             ->andWhere('v.status = 1')
             ->orderBy('v.createdAt', 'DESC')
@@ -121,16 +123,16 @@ class VehicleRepository extends ServiceEntityRepository
                     break;
                 }
             }
-
         }
-        
         return $VehiclesMatch;
-
     }
 
+    // on récupére les quatre derniers véhicules
+    /**
+    * @return Vehicle[] Returns an array of Vehicle objects
+    */
     public function getLastVehicles()
     {
-
         $vehicles = $this->createQueryBuilder('v')
             ->andWhere('v.status = 1')
             ->orderBy('v.createdAt', 'DESC')
@@ -141,9 +143,7 @@ class VehicleRepository extends ServiceEntityRepository
         $VehiclesMatch = [];
 
         foreach ($vehicles as $vehicle) {
-
             if (count($VehiclesMatch) == 4 ){
-
                 return $VehiclesMatch;
             }
 
@@ -153,11 +153,7 @@ class VehicleRepository extends ServiceEntityRepository
                     break;
                 }
             }
-            
-        
-
         } 
         return $VehiclesMatch;
-
     }
 }

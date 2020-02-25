@@ -7,8 +7,7 @@
 
 <div class="container d-flex justify-content-center mt-5">
     <div class="col-lg-5 col-md-8">
-        <h3 class="h4 mb-3 text-center">Comment s'est passé la location ?</h3> 
-            
+        <h3 class="h4 mb-3 text-center">Comment s'est passé la location ?</h3>  
             <div class="rating rating2"  data-toggle="popover" title="Oups" data-content="Veuillez donner une note svp."><!--
                 --><a data-rate="5" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
                 --><a data-rate="4" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
@@ -16,6 +15,7 @@
                 --><a data-rate="2" class="stars" href="#" title="Donner 5 étoiles">★</a><!--
                 --><a data-rate="1" class="stars" href="#" title="Donner 5 étoiles">★</a>
             </div>
+            {# Formulaire ajout commentaire #}
             {{ form_start(form) }}
             {{ form_row(form.score, {'attr' : { 'value' : 0 }}) }} 
             {{ form_row(form.content, {'attr' : { 'placeholder' :'Commentaire' }}) }} 

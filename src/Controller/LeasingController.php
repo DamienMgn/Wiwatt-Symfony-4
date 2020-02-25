@@ -86,16 +86,18 @@ class LeasingController extends AbstractController
 
             $arrayDates = [];
 
+            // On crée un tableau des dates reçues en requêtes si elles correspondent au véhicule en cours
             foreach($arrayDatesID as $dateId){
                 $date = $this->getDoctrine()->getRepository(Date::class)->find($dateId);
-                    if ($date->getVehicle() === $vehicle) {
-                        $arrayDates[] = $date->getAvailableDate()->format('m/d/Y');
-                    } else {
-                        $this->addFlash('danger' , 'Les dates ne correspondent pas');
-                        return $this->redirect($request->getUri());
-                    }
+                if ($date->getVehicle() === $vehicle) {
+                    $arrayDates[] = $date->getAvailableDate()->format('m/d/Y');
+                } else {
+                    $this->addFlash('danger' , 'Les dates ne correspondent pas');
+                    return $this->redirect($request->getUri());
+                }
             }
 
+            // Si l'utilisateur n'est pas le propriétaire on crée un booking
             if ($this->getUser() != $vehicle->getUser() ){
 
                 $booking = new Booking ;

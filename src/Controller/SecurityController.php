@@ -20,21 +20,17 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // si on a un utilisateur on redirige vers la home
         if ($this->getUser()) {
            $this->redirectToRoute('show_home');
         }
 
-       
        $error = $authenticationUtils->getLastAuthenticationError();
        
        $lastUsername = $authenticationUtils->getLastUsername();
 
        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
-        
     }
-
-
-
 
     /**
      * @Route("/logout", name="app_logout")
@@ -55,8 +51,6 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() ) {
-            
-            
                 $user->setUsername($user->getEmail());
                 $plainPassword = $user->getPassword();
                 $encodedPassword = $encoder->encodePassword($user, $plainPassword);
@@ -66,10 +60,8 @@ class SecurityController extends AbstractController
                 $em->flush();
                 $this->addFlash('success', 'Bonjour '. $user->getFirstname() .' votre compte à été créé avec succès. Vous pouvez maintenant vous connecter.');
                 return $this->redirectToRoute('app_login');
-
             } 
         
-
         return $this->render('security/subscribe.html.twig', [
             'registerForm' => $form->createView() ,
             'error' => $error,

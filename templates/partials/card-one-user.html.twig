@@ -1,25 +1,21 @@
 <div class="col-xl-4 col-md-6 col-sm-10 border rounded-lg py-5 px-3 one_user shadow-lg">
         <p class="font-weight-bold h5">A propos</p>
+        {# Informations utilisateur #}
         <div class="d-flex justify-content-around align-items-center font-weight-bold">
               <div class="d-flex align-items-center">
                   <div class="d-flex flex-column align-items-center">
                         <img height="80" src="{{asset(user.avatar)}}" alt="avatar" class="card-avatar">
-                        <p class="text-small">{{ user.firstname }}</p> 
-                         
+                        <p class="text-small">{{ user.firstname }}</p>           
                   </div>
-                
                   <div class="ml-3 d-flex flex-column align-items-center">
                         <p class="text-small">{{ user.comments | length }} évaluation{% if user.comments | length > 1 %}s{% endif %}</p>
-                        
                         {% if user.comments | length > 0 %}
                         <div class="d-flex justify-content-center">
                               {% for i in 0..( user.averageScore | round ) -1 %}
                              <i class="fa fa-star text-warning" aria-hidden="true"></i>
                               {% endfor %}
                         </div>    
-                        
                         {% endif %}
-                        
                   </div>
               </div>
               <div class="d-flex flex-column align-items-start" >
@@ -29,9 +25,8 @@
               </div>
         </div>
         <hr>
-         
         <p class="font-weight-bold mt-3">Tous les avis sur {{ user.firstname | capitalize  }} {{ user.lastname  | capitalize }}</p>
-  
+      {# Commentaires concernant l'utilisateur #}
         {% for comment in user.comments | reverse %}
         <div class="mt-3 border rounded-lg pl-3 pt-3 pr-1">
               <div class=" d-flex align-items-center row">
@@ -48,7 +43,6 @@
                              <i class="fa fa-star text-warning" aria-hidden="true"></i>
                               {% endfor %}
                           </div>    
-                          
                     </div>
               </div>
               <p class="text-small font-italic text-right text-secondary">le {{ comment.createdAt|localizeddate('none', 'none', 'en', null, 'd MMMM à kk:mm')  }} </p>    
@@ -56,6 +50,5 @@
 
         {% else %}
         <p class="mt-3 text-center">Aucun avis</p>
-              
         {% endfor %}
   </div>

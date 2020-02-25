@@ -27,31 +27,30 @@ class AccountController extends AbstractController
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request); 
          
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                
+        if ($form->isSubmitted() && $form->isValid()) {
+            
             $imagePath = $fileUploadManager->upload( $form['avatar'], $user->getId());
             
             if (!($user->getAvatar() !== null && $imagePath == null)) {
                 $user->setAvatar($imagePath);
             }
             
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
-           
-                $this->addFlash(
-                    'info',
-                    'Les informations de votre profil ont été mises à jour.' 
-                );
-                
-                return $this->redirectToRoute('user_information');
-            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        
+            $this->addFlash(
+                'info',
+                'Les informations de votre profil ont été mises à jour.' 
+            );
+            
+            return $this->redirectToRoute('user_information');
+        }
        
         return $this->render('user/account/index.html.twig', [  
-                    'registerForm' => $form->createView(),
-                    'user' => $user
-                            ]);
+            'registerForm' => $form->createView(),
+            'user' => $user
+        ]);
     }
 
 
@@ -79,13 +78,8 @@ class AccountController extends AbstractController
      * @Route("/user/{user}/info", name="one_user_information")
      */
 
-     public function oneUserInformation(User $user){
-
-       
-
+     public function oneUserInformation(User $user)
+     {
         return $this->render('user/one_user.html.twig' , ['user' => $user ] );
-        
      }
-
-
 }

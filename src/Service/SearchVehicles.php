@@ -51,6 +51,7 @@ class SearchVehicles
         }
     }
 
+    // calculer la distance
     private static function distance($lat1, $lng1, $lat2, $lng2, $unit = 'k') {
         $earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
         $rlo1 = deg2rad($lng1);
@@ -68,6 +69,7 @@ class SearchVehicles
         }
     }
 
+    // comparer les dates envoyées par l'utilisateur aux dates de disponibilités du véhicule
     private function compareDates($vehicles, $dates) {
 
         $arrayDates = preg_split('/-/', $dates);

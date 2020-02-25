@@ -3,27 +3,21 @@
 {% block title %} vos informations personnelles {% endblock %}
 
 {% block body %}
-
-  {{ form_start(registerForm) }}
   
       <div class="container-fluid d-flex justify-content-around mt-5 row mx-auto">
-
             <div class="col-xl-4 col-md-6 col-sm-10 mb-5">
                   <div class="d-flex flex-column align-items-center">
                         <div class="d-flex justify-content-center align-items-center position-relative">
-                        
-                        
                               <div class="avatar mt-2">
-                                    <img class="avatar_picture_page_my-information" src="{{ asset('/' ~ user.avatar) }}">
-                                    
-                                    
+                                    <img class="avatar_picture_page_my-information" src="{{ asset('/' ~ user.avatar) }}">    
                               </div>
                               <div id="avatar-click" class="align-self-end">                 
                                     <i class="fa fa-camera fa-2x" aria-hidden="true"></i>                                                                                        
                               </div>
+                        {# Formulaire mise à jour données perso #}
+                        {{ form_start(registerForm) }}
                               {{ form_row(registerForm.avatar, {'attr' : { 'placeholder' :'Nom' } }) }}               
                         </div>
-
                         <div class="col-md-10 mt-3">
                               <div class="mt-2">
                                     {{ form_label(registerForm.lastname, 'Nom' )}}
@@ -37,13 +31,10 @@
                                     
                                     {{ form_label(registerForm.phoneNumber, 'Numéro de téléphone' )}}
                                     {{ form_row(registerForm.phoneNumber, {'attr' : { 'placeholder' :'Numéro de téléphone' }})  }}
-                                    
-                              
-                              
+
                                     <button class="btn btn-outline-info col mt-3" type="submit">Mettre à jour</button>
                               </div>                            
-                        </div>
-                        
+                        </div>   
                         {{ form_end(registerForm) }}
                   </div> 
                   <div class="mt-5 row d-flex justify-content-center">                
@@ -61,11 +52,7 @@
                         </div>                   
                   </div>
             </div>
-
-            
             {% include 'partials/card-one-user.html.twig' %}
-            
-
       </div>
            
 {{ include('partials/footer.html.twig') }}

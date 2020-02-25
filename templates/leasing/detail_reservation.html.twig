@@ -4,65 +4,60 @@
 
 {% block body %}
 
-
 <div class="container-fluid d-flex align-items-center flex-column">   
     <h1>Détails de votre réservation</h1>
-        <div class="my-2 pt-3 pb-3 carte col-xl-4 col-md-6 col-sm-10  border rounded-lg shadow">  
-                <div class="text-center">
-                    <p class="font-weight-bold h4 ">{{ vehicle.type.name|capitalize }} {{ vehicle.brand|capitalize }} {{ vehicle.model|capitalize }}</p>
-                </div>
-                <div class="d-flex  mt-3">                  
-                    <ul>
-                        <li><i class="fa fa-bolt text-info" aria-hidden="true"></i>  Puissance : <span class="text-small"> {{ vehicle.power }}W </span></li>
-                        <li> <i class="fa fa-battery-half text-info" aria-hidden="true"></i>  Autonomie :<span class="text-small"> {{ vehicle.autonomy }} kms </span></li>
-                        <li><i class="fa fa-tachometer text-info" aria-hidden="true"></i>  Vitesse maxi :<span class="text-small"> {{ vehicle.maxSpeed }} km/h </span></li>
-                        <li><i class="fa fa-users text-info" aria-hidden="true"></i> Nombre de place :<span class="text-small"> {{ vehicle.seatNumber }}</span></li>
-                        <li><i class="fa fa-users text-info" aria-hidden="true"></i> Poids :<span class="text-small"> {{ vehicle.weight }} kgs</span></li>                    
-                    </ul>                        
-                </div>
-                <div class="d-flex flex-column ">
-                    <p class="mt-1">Description : "{{ vehicle.description|capitalize }}" </p>
-                    <p class="mt-2">Adresse : {{ vehicle.adress|capitalize }} ( {{ vehicle.zipCode }} )</p>   
-                    <p class="mt-2">Propriétaire : {{ vehicle.user.firstname|capitalize }} {{ vehicle.user.lastname|capitalize }}</p>             
-                </div>
-        
-                <hr>
-                <div >
-                    <div class="mb-4 ">
-                        <p>Les dates que vous avez choisies :</p>
-                    </div>
-                    <div class="d-flex flex-column">
-                        {% set numberDates = 0 %}
-                        <ul >
-                            {% for date in dates %}
-                                {% set numberDates = numberDates + 1 %}
-                      
-                            <li >{{ date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM')  }}</li> 
-                            {% endfor %}             
-                        </ul>                         
-                    </div>
-                </div>
-                    {% set dayCost = vehicle.dayCost %}
-                    {%  set totalPriceBooking = dayCost * numberDates %}
-                <div>
-                    <p>Tarif pour ces {{numberDates}} jours : {{totalPriceBooking }} euros.</p>
-                </div>               
-                <hr>                                              
-                <div class="d-flex justify-content-around align-items-center mt-3">
-        
-                    <div class="d-flex justify-content-center mt-3">
-                        <form action="{{ path('valider_reservation',{'id' : vehicle.id} )}}" method="POST"> 
-                            <input type="hidden" name="token" value="{{ csrf_token('ask-booking') }}"/>
-                            {% for date in dates %}
-                            <input type="hidden" name="datesBooking[]" value="{{ date }}"/>
-                            {%  endfor %}
-                            <button type="submit" class="btn btn-outline-info">Valider cette réservation</button>
-                        </form>
-                        
-                    </div>
-        
-                </div>    
+    <div class="my-2 pt-3 pb-3 carte col-xl-4 col-md-6 col-sm-10  border rounded-lg shadow">  
+        <div class="text-center">
+            <p class="font-weight-bold h4 ">{{ vehicle.type.name|capitalize }} {{ vehicle.brand|capitalize }} {{ vehicle.model|capitalize }}</p>
+        </div>
+        <div class="d-flex  mt-3">                  
+            <ul>
+                <li><i class="fa fa-bolt text-info" aria-hidden="true"></i>  Puissance : <span class="text-small"> {{ vehicle.power }}W </span></li>
+                <li> <i class="fa fa-battery-half text-info" aria-hidden="true"></i>  Autonomie :<span class="text-small"> {{ vehicle.autonomy }} kms </span></li>
+                <li><i class="fa fa-tachometer text-info" aria-hidden="true"></i>  Vitesse maxi :<span class="text-small"> {{ vehicle.maxSpeed }} km/h </span></li>
+                <li><i class="fa fa-users text-info" aria-hidden="true"></i> Nombre de place :<span class="text-small"> {{ vehicle.seatNumber }}</span></li>
+                <li><i class="fa fa-users text-info" aria-hidden="true"></i> Poids :<span class="text-small"> {{ vehicle.weight }} kgs</span></li>                    
+            </ul>                        
+        </div>
+        <div class="d-flex flex-column ">
+            <p class="mt-1">Description : "{{ vehicle.description|capitalize }}" </p>
+            <p class="mt-2">Adresse : {{ vehicle.adress|capitalize }} ( {{ vehicle.zipCode }} )</p>   
+            <p class="mt-2">Propriétaire : {{ vehicle.user.firstname|capitalize }} {{ vehicle.user.lastname|capitalize }}</p>             
+        </div>
+        <hr>
+        <div >
+            <div class="mb-4 ">
+                <p>Les dates que vous avez choisies :</p>
+            </div>
+            <div class="d-flex flex-column">
+                {% set numberDates = 0 %}
+                <ul >
+                    {% for date in dates %}
+                        {% set numberDates = numberDates + 1 %}
+                
+                    <li >{{ date|localizeddate('none', 'none', 'fr', null, 'EEEE d MMMM')  }}</li> 
+                    {% endfor %}             
+                </ul>                         
+            </div>
+        </div>
+            {% set dayCost = vehicle.dayCost %}
+            {%  set totalPriceBooking = dayCost * numberDates %}
+        <div>
+            <p>Tarif pour ces {{numberDates}} jours : {{totalPriceBooking }} euros.</p>
+        </div>               
+        <hr>                                              
+        <div class="d-flex justify-content-around align-items-center mt-3">
+            <div class="d-flex justify-content-center mt-3">
+                <form action="{{ path('valider_reservation',{'id' : vehicle.id} )}}" method="POST"> 
+                    <input type="hidden" name="token" value="{{ csrf_token('ask-booking') }}"/>
+                    {% for date in dates %}
+                    <input type="hidden" name="datesBooking[]" value="{{ date }}"/>
+                    {%  endfor %}
+                    <button type="submit" class="btn btn-outline-info">Valider cette réservation</button>
+                </form>
+            </div>
         </div>    
+    </div>    
 </div>
     
 {% endblock %}
