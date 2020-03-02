@@ -74,9 +74,9 @@ class HomeController extends AbstractController
 
 
      /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact", name="show_contact")
      */
-    public function contact(Request $request,\Swift_Mailer $mailer)
+    public function showContact(Request $request,\Swift_Mailer $mailer)
     {
         $form = $this->createForm(ContactType::class);
 
@@ -115,20 +115,30 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/faq", name="faq_show")
+     * @Route("/faq", name="show_faq")
      */
-    public function faq()
+    public function showFaq()
     {
         return $this->render('home/faq.html.twig');
     }
 
     /**
-     * @Route("/mentions-legales", name="mentionslegales_show")
+     * @Route("/mentions-legales", name="show_legal_mentions")
      */
-    public function mentions()
+    public function showLegalMentions()
     {
         return $this->render('home/mentions_legales.html.twig');
     }
+
+    /**
+     * @Route("/nous", name="show_us")
+     */
+    public function showUs()
+    {       
+        return $this->render('home/us.html.twig');
+    }
+
+    // NOTIFICATION POUR LA V2
 
     /**
      * @Route("/notice-close-owner", name="closeNoticeOwner", methods={"POST"})
@@ -153,8 +163,6 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig');
     }
-
-
 
     /**
      * @Route("/notice-close-renter", name="closeNoticeRenter", methods={"POST"})
@@ -207,15 +215,6 @@ class HomeController extends AbstractController
                 break ;
             }
         }
-
         return $this->json(false) ;
-    }
-
-    /**
-     * @Route("/us", name="us_page")
-     */
-    public function us()
-    {       
-        return $this->render('home/us.html.twig');
     }
 }

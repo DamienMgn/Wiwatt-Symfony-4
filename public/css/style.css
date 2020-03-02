@@ -244,10 +244,10 @@ font-weight: bold ;
     width: 20%;
     margin: auto;
 }
-#map-resultats{
-    min-height:100% ; 
-    
+#map-results{
+    min-height:100% ;
 }
+
 p{
     margin: 0 ;
 }

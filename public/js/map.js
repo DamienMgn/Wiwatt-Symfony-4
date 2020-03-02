@@ -13,20 +13,18 @@ map = {
     // Affichage carte page annonces
 
     displayMap: function() {
-            
-        if( $('#map-resultats').length > 0 ){
+        if( $('#map-results').length > 0 ){
                 
             map.params = app.extractUrlParams();
         
-            map.mapResults = L.map('map-resultats').setView([map.params.latitude , map.params.longitude ], 12);
+            map.mapResults = L.map('map-results').setView([map.params.latitude , map.params.longitude ], 12);
     
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map.mapResults);
     
             map.getAvailableMarker() ;
-    
-            }
+        }
     },   
     
     getAvailableMarker : function(){
